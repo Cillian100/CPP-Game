@@ -5,6 +5,7 @@
 #include <iostream>
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen){
+  verticleVelocity=0;
   if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
     std::cout<<"Subsystems Initialized.."<<std::endl;
     window = SDL_CreateWindow(title, xpos, ypos, width, height, fullscreen);
@@ -30,10 +31,18 @@ void Game::userInput(){
     dir = LEFT;
   }
   if(keystates[SDL_SCANCODE_W]){
+    jump==true;
     dir=UP;
+  }else{
+    jump==false;
   }
   if(keystates[SDL_SCANCODE_S]){
     dir=DOWN;
+  }
+  if(keystates[SDL_SCANCODE_LSHIFT]){
+    shift=true;
+  }else{
+    shift=false;
   }
   while(SDL_PollEvent(&e)){
     if(e.type == SDL_QUIT){
@@ -42,51 +51,67 @@ void Game::userInput(){
   }
 }
 
-void Game::gameLogic(){
-  //collision
-  {
-    //Is the X position of the point to the RIGHT of the LEFT EDGE?
-    //Is the X position of the point to the LEFT of the RIGHT EDGE?
-    //Is the Y position of the point BELOW the TOP EDGE?
-    //Is the Y position of the point ABOVE the BOTTOM EDGE?
+void Game::squaresquare(){
+  int R1rightEdge=head.x;
+  int R1leftEdge=head.w+R1rightEdge;
 
-    int pointX=head.x;
-    int pointY=head.y;
+  int R2rightEdge=box.x;
+  int R2leftEdge=box.w+R2rightEdge;
 
-    int leftEdge=box.x;
-    int rightEdge=box.w+leftEdge;
+  int R1topEdge=head.y;
+  int R1bottomEdge=head.h+R1topEdge;
 
-    int topEdge=box.y;
-    int bottomEdge=box.h+topEdge;
+  int R2topEdge=box.y;
+  int R2bottomEdge=box.h+R2topEdge;
 
-    if( (pointX>leftEdge) && (pointX<rightEdge) && (pointY<bottomEdge) && (pointY>topEdge) ){
-      printf("%d %d \n", (bottomEdge-pointY), (pointY-topEdge));
-      collision=true;
+  if( (R1rightEdge<R2leftEdge) && (R1leftEdge>R2rightEdge) && (R1bottomEdge>R2topEdge) && (R1topEdge<R2bottomEdge) ){
+    if( (R1bottomEdge-R2topEdge) > (R2bottomEdge-R1topEdge) ){
+      head.y=head.y+(R2bottomEdge-R1topEdge);
     }else{
-      printf("not collison! \n");
-      collision=false;
-    }
+      head.y=head.y-(R1bottomEdge-R2topEdge);
+    } 
+    collision=true;
+  }else{
+    collision=false;
+  }
+}  
+
+
+void Game::gameLogic(){
+  if(verticleVelocity<100){
+    verticleVelocity++;    
+  }
+  head.y += verticleVelocity/20;
+  int move;
+  if(shift){
+    move=1;
+  }else{
+    move=5;
   }
   //movement
   switch(dir){
   case LEFT:
-    head.x += 10;
+    head.x += move;
     break;
   case RIGHT:
-    head.x -= 10;
+    head.x -= move;
     break;
   case UP:
-    head.y -= 10;
+    if(collision==true){
+      verticleVelocity=-100;
+    }
     break;
   case DOWN:
-    head.y += 10;
     break;
   case DEFAULT:
     break;
   }
+  
 }
 
 void Game::render(){
+  printf("velocity %d \n", verticleVelocity);
+  
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
@@ -100,18 +125,20 @@ void Game::render(){
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_RenderFillRect(renderer, &head);
   
-  SDL_RenderPresent(renderer);  
+  SDL_RenderPresent(renderer);
 }
 
 int main(){
   Game game;
   game.init("Snake", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
   printf("%d \n", game.isRunning());
+
   while(game.isRunning()){
     game.userInput();
     game.gameLogic();
+    game.squaresquare();
     game.render();
-    SDL_Delay(25);
+    SDL_Delay(10);
   }
 
   return 0;
