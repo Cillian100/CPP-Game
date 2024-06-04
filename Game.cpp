@@ -12,6 +12,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     renderer = SDL_CreateRenderer(window, -1, 0);
   }
   running=true;
+  collision=false;
 }
 
 bool Game::isRunning(){
@@ -42,6 +43,31 @@ void Game::userInput(){
 }
 
 void Game::gameLogic(){
+  //collision
+  {
+    //Is the X position of the point to the RIGHT of the LEFT EDGE?
+    //Is the X position of the point to the LEFT of the RIGHT EDGE?
+    //Is the Y position of the point BELOW the TOP EDGE?
+    //Is the Y position of the point ABOVE the BOTTOM EDGE?
+
+    int pointX=head.x;
+    int pointY=head.y;
+
+    int leftEdge=box.x;
+    int rightEdge=box.w+leftEdge;
+
+    int topEdge=box.y;
+    int bottomEdge=box.h+topEdge;
+
+    if( (pointX>leftEdge) && (pointX<rightEdge) && (pointY<bottomEdge) && (pointY>topEdge) ){
+      printf("%d %d \n", (bottomEdge-pointY), (pointY-topEdge));
+      collision=true;
+    }else{
+      printf("not collison! \n");
+      collision=false;
+    }
+  }
+  //movement
   switch(dir){
   case LEFT:
     head.x += 10;
@@ -63,10 +89,17 @@ void Game::gameLogic(){
 void Game::render(){
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
+
+  if(collision){
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+  }else{
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+  }
+  SDL_RenderFillRect(renderer, &box);
+
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_RenderFillRect(renderer, &head);
-  SDL_SetRenderDrawColor(renderer, 100, 255, 100, 255);  
-  SDL_RenderFillRect(renderer, &box);
+  
   SDL_RenderPresent(renderer);  
 }
 

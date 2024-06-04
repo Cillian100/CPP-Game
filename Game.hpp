@@ -31,8 +31,9 @@ private:
   SDL_Window *window;
   SDL_Renderer *renderer;
   bool running;
+  bool collision;
   SDL_Rect head {500, 500, 10, 10};
-  SDL_Rect box {0, 500, 800, 100};
+  SDL_Rect box {100, 300, 600, 100};
   int dir;
   
   enum Direction{
