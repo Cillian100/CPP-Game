@@ -31,13 +31,9 @@ void Game::userInput(){
     dir = LEFT;
   }
   if(keystates[SDL_SCANCODE_W]){
-    jump==true;
-    dir=UP;
+    jump=true;
   }else{
-    jump==false;
-  }
-  if(keystates[SDL_SCANCODE_S]){
-    dir=DOWN;
+    jump=false;
   }
   if(keystates[SDL_SCANCODE_LSHIFT]){
     shift=true;
@@ -52,6 +48,8 @@ void Game::userInput(){
 }
 
 void Game::squaresquare(){
+  collision=false;
+  
   int R1rightEdge=head.x;
   int R1leftEdge=head.w+R1rightEdge;
 
@@ -71,9 +69,10 @@ void Game::squaresquare(){
       head.y=head.y-(R1bottomEdge-R2topEdge);
     } 
     collision=true;
-  }else{
-    collision=false;
   }
+
+
+  
 }  
 
 
@@ -88,7 +87,6 @@ void Game::gameLogic(){
   }else{
     move=5;
   }
-  //movement
   switch(dir){
   case LEFT:
     head.x += move;
@@ -96,15 +94,15 @@ void Game::gameLogic(){
   case RIGHT:
     head.x -= move;
     break;
-  case UP:
+  case DEFAULT:
+    break;
+  }
+
+  if(jump==true){
     if(collision==true){
       verticleVelocity=-100;
     }
-    break;
-  case DOWN:
-    break;
-  case DEFAULT:
-    break;
+  }else{
   }
   
 }
@@ -121,11 +119,13 @@ void Game::render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
   }
   SDL_RenderFillRect(renderer, &box);
-
+  SDL_RenderFillRect(renderer, &box2);
+  
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_RenderFillRect(renderer, &head);
   
   SDL_RenderPresent(renderer);
+  
 }
 
 int main(){
