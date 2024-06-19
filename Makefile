@@ -1,9 +1,9 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = Game.cpp
+OBJS = Setup.cpp
 
 CC = g++
 COMPILER_FLAGS = -w
-LINKER_FLAGS = -lSDL2
+LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = game
@@ -12,3 +12,4 @@ OBJ_NAME = game
 all : $(OBJS)
 	g++ $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 	./game
+
