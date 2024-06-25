@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = Setup.cpp
+OBJS = Setup.cpp triangle.cpp circle.cpp square.cpp
 
 CC = g++
 COMPILER_FLAGS = -w
