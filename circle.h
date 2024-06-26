@@ -3,6 +3,8 @@
 class circle{
  public:
   circle(int ex, int why, int rad);
+  int getCentreX();
+  int getCentreY();
   int getX();
   int getY();
   int getRadius();

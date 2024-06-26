@@ -6,6 +6,14 @@ circle::circle(int ex, int why, int rad){
   radius=rad;
 }
 
+int circle::getCentreX(){
+  return (x + (radius));
+}
+
+int circle::getCentreY(){
+  return (y + (radius));
+}
+
 int circle::getX(){
   return x;
 }
@@ -13,6 +21,8 @@ int circle::getX(){
 int circle::getY(){
   return y;
 }
+
+
 
 int circle::getRadius(){
   return radius;
