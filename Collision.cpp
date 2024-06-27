@@ -6,8 +6,8 @@
 bool Collision::circleInsideSquare(circle c, square s){
   int squareX1=s.getX();
   int squareY1=s.getY();
-  int squareX2=s.getX()+s.getLength();
-  int squareY2=s.getY()+s.getWidth();
+  int squareX2=s.getX()+s.getWidth();
+  int squareY2=s.getY()+s.getHeight();
     
   int circleX=c.getCentreX();
   int circleY=c.getCentreY();

@@ -2,13 +2,13 @@
 
 class square{
  public:
-  square(int ex, int why, int len, int wid);
+  square(int ex, int why, int wid, int hei);
   int getX();
   int getY();
   void setX(int ex);
   void setY(int why);
   
-  int getLength();
+  int getHeight();
   int getWidth();
   
   int getX2();
@@ -22,7 +22,7 @@ class square{
  private:
   int x;
   int y;
-  int length;
+  int height;
   int width;
   float velocityX;
   float velocityY;

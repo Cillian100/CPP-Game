@@ -1,10 +1,10 @@
 #include "square.h"
 
-square::square(int ex, int why, int len, int wid){
+square::square(int ex, int why, int wid, int hei){
   x=ex;
   y=why;
-  length=len;
   width=wid;
+  height=hei;  
 }
 
 int square::getX(){
@@ -24,15 +24,15 @@ void square::setY(int why){
 }
 
 int square::getX2(){
-  return x+length;
+  return x+width;
 }
 
 int square::getY2(){
-  return y+width;
+  return y+height;
 }
 
-int square::getLength(){
-  return length;
+int square::getHeight(){
+  return height;
 }
 
 int square::getWidth(){

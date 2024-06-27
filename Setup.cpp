@@ -14,7 +14,7 @@ public:
     : window(sf::VideoMode(800, 600), "Platformer!"),
       cir(100, 100, 100),
       mouse(0, 0, 50),
-      player(100, 100, 100, 100),
+      player(100, 100, 70, 100),
       squ(0, 0, 800, 600){
     shape.setRadius(cir.getRadius());
     shape.setPosition(cir.getX(), cir.getY());
@@ -24,7 +24,7 @@ public:
     cursor.setPosition(mouse.getX(), mouse.getY());
     cursor.setFillColor(sf::Color::Blue);
 
-    playerSF.setSize(sf::Vector2f(player.getWidth(), player.getLength()));
+    playerSF.setSize(sf::Vector2f(player.getWidth(), player.getHeight()));
     playerSF.setPosition(player.getX(), player.getY());
     playerSF.setFillColor(sf::Color::Red);
 
@@ -36,14 +36,27 @@ public:
     window.setFramerateLimit(61);
 
     if(!font.loadFromFile("gothic.ttf")){
-      printf("Error!! \n");
+      printf("Couldn't load gothic.ttf! \n");
     }
 
     text.setFont(font);
     text.setCharacterSize(30);
     text.setStyle(sf::Text::Regular); 
     text.setFillColor(sf::Color::Green);
-    text.setPosition(0, 560);    
+    text.setPosition(0, 560);
+
+    if(!texture.loadFromFile("Graphics/robot.png")){
+      printf("Couldn't load robot.png! \n");
+    }
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(0,0,70,100));
+    sprite.setColor(sf::Color(255,255,255,255));
+
+    backgroundTexture.loadFromFile("Graphics/background.png");
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,800,800));
+    backgroundSprite.setColor(sf::Color(255,255,255,255));
+    backgroundSprite.setPosition(0,0);
   }
 
   void gameLoop() {
@@ -82,35 +95,55 @@ private:
   }
 
   void playerMovement(){
+    playerUp = DEFAULT;
+    playerHorizontal = HORIZONTAL_DEFAULT;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-      cout << "left" << endl;
+      playerHorizontal = LEFT;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-      cout << "right" << endl;
+      playerHorizontal = RIGHT;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-      cout << "jump" << endl;
+      playerUp = JUMP;
     }
   }
 
   void playerLogic(){
-    player.setVelocityY(player.getVelocityY() + 0.3);
-    cout << "velocity " << player.getVelocityY() << endl;
-    player.setY(player.getY() + player.getVelocityY());
+    if(player.getVelocityY()>0){
+      player.setVelocityY(player.getVelocityY() + 0.4);
+    }else{
+      player.setVelocityY(player.getVelocityY() + 0.3);
+    }
+
+    if(playerHorizontal==RIGHT){
+      player.setX(player.getX() + 7);
+    }
+    if(playerHorizontal==LEFT){
+      player.setX(player.getX() - 7);
+    }
 
     if(collision.squareInsideSquare(player, squ)){
-      if(player.getY2()>=squ.getY2()){
-	player.setY(squ.getY2() - player.getWidth());
+      if(playerUp == JUMP){
 	player.setVelocityY(-10);
+      }else{
+	player.setVelocityY(1);
+      }
+      if(player.getY2()>=squ.getY2()){
+	player.setY(squ.getY2() - player.getHeight());
       }
     }
+    
+    player.setY(player.getY() + player.getVelocityY());
+    player.setX(player.getX() + player.getVelocityX());
   }
 
   void render() {
     string fpsOutput = "fps " + to_string((int)fps);
     
-    text.setString(fpsOutput);    
+    text.setString(fpsOutput);
+    
     window.clear();
+    window.draw(backgroundSprite);
     window.draw(text);
     //window.draw(shape);
     if(mouseBorderCollision){
@@ -119,8 +152,10 @@ private:
       cursor.setFillColor(sf::Color::Red);
     }
     //window.draw(cursor);
-    playerSF.setPosition(player.getX(), player.getY());
-    window.draw(playerSF);
+    //    playerSF.setPosition(player.getX(), player.getY());
+    sprite.setPosition(player.getX(),player.getY());
+    //window.draw(playerSF);
+    window.draw(sprite);
     window.display();
     
   }
@@ -148,11 +183,8 @@ private:
     }
 
     cursor.setPosition(mouse.getX(), mouse.getY());
-    
   }
-
   
-
   sf::RenderWindow window;
   sf::CircleShape shape;
   sf::CircleShape cursor;
@@ -161,6 +193,11 @@ private:
   sf::Font font;
   sf::Text text;
   sf::RectangleShape playerSF;
+  sf::Texture texture;
+  sf::Sprite sprite;
+  sf::Texture backgroundTexture;
+  sf::Sprite backgroundSprite;
+  
   float fps;
   bool mousePressed;
   bool mouseBorderCollision;
@@ -169,6 +206,19 @@ private:
   square player;
   square squ;
   Collision collision;
+  int playerUp;
+  int playerHorizontal;
+
+  enum playerUpEnum{
+    JUMP,
+    DEFAULT
+  };
+
+  enum playerHorizontalEnum{
+    RIGHT,
+    LEFT,
+    HORIZONTAL_DEFAULT
+  };
 };
 
 int main() {
