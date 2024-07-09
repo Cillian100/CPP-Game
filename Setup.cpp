@@ -14,23 +14,21 @@ public:
     : window(sf::VideoMode(800, 600), "Platformer!"),
       cir(100, 100, 100),
       mouse(0, 0, 50),
-      player(100, 100, 70, 100),
-      squ(0, 0, 800, 600){
-    shape.setRadius(cir.getRadius());
-    shape.setPosition(cir.getX(), cir.getY());
-    shape.setFillColor(sf::Color::Green);
-
-    cursor.setRadius(mouse.getRadius());
-    cursor.setPosition(mouse.getX(), mouse.getY());
-    cursor.setFillColor(sf::Color::Blue);
-
+      player(0, 0, 70, 100),
+      object(0, 450, 200, 100),
+      squ(0, 0, 800, 600),
+      floor(0, 550, 800, 50){
+    rectShapeFloor.setSize(sf::Vector2f(floor.getWidth(), floor.getHeight()));
+    rectShapeFloor.setPosition(floor.getX(), floor.getY());
+    rectShapeFloor.setFillColor(sf::Color::Red);
+    
     playerSF.setSize(sf::Vector2f(player.getWidth(), player.getHeight()));
     playerSF.setPosition(player.getX(), player.getY());
     playerSF.setFillColor(sf::Color::Red);
-
-    box.setSize(sf::Vector2f(800,600));
-    box.setPosition(squ.getX(), squ.getY());
-    box.setFillColor(sf::Color::Red);
+    
+    platform.setSize(sf::Vector2f(object.getWidth(),object.getHeight()));
+    platform.setPosition(object.getX(), object.getY());
+    platform.setFillColor(sf::Color::Red);
 
     window.setMouseCursorVisible(false);
     window.setFramerateLimit(61);
@@ -48,6 +46,7 @@ public:
     if(!texture.loadFromFile("Graphics/robot.png")){
       printf("Couldn't load robot.png! \n");
     }
+    
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0,0,70,100));
     sprite.setColor(sf::Color(255,255,255,255));
@@ -122,16 +121,27 @@ private:
       player.setX(player.getX() - 7);
     }
 
-    if(collision.squareInsideSquare(player, squ)){
+    if(collision.squarePlatform(player, floor)){
       if(playerUp == JUMP){
 	player.setVelocityY(-10);
       }else{
 	player.setVelocityY(1);
       }
-      if(player.getY2()>=squ.getY2()){
-	player.setY(squ.getY2() - player.getHeight());
-      }
+	 
     }
+
+    // if(collision.squareInsideSquare(player, squ)){
+    //   if(playerUp == JUMP){
+    // 	player.setVelocityY(-10);
+    //   }else{
+    // 	player.setVelocityY(1);
+    //   }
+    //   if(player.getY2()>=squ.getY2()){
+    //    	player.setY(squ.getY2() - player.getHeight());
+    //   }
+    // }
+
+    // collision.squareOutsideSquare(player, object);
     
     player.setY(player.getY() + player.getVelocityY());
     player.setX(player.getX() + player.getVelocityX());
@@ -139,23 +149,22 @@ private:
 
   void render() {
     string fpsOutput = "fps " + to_string((int)fps);
-    
     text.setString(fpsOutput);
     
     window.clear();
     window.draw(backgroundSprite);
     window.draw(text);
-    //window.draw(shape);
+
     if(mouseBorderCollision){
       cursor.setFillColor(sf::Color::Blue);
     }else{
       cursor.setFillColor(sf::Color::Red);
     }
-    //window.draw(cursor);
-    //    playerSF.setPosition(player.getX(), player.getY());
+
     sprite.setPosition(player.getX(),player.getY());
-    //window.draw(playerSF);
     window.draw(sprite);
+    //window.draw(platform);
+    window.draw(rectShapeFloor);
     window.display();
     
   }
@@ -189,6 +198,7 @@ private:
   sf::CircleShape shape;
   sf::CircleShape cursor;
   sf::RectangleShape box;
+  sf::RectangleShape platform;
   sf::Event event;
   sf::Font font;
   sf::Text text;
@@ -197,6 +207,7 @@ private:
   sf::Sprite sprite;
   sf::Texture backgroundTexture;
   sf::Sprite backgroundSprite;
+  sf::RectangleShape rectShapeFloor;
   
   float fps;
   bool mousePressed;
@@ -205,6 +216,9 @@ private:
   circle mouse;
   square player;
   square squ;
+  square object;
+  square floor;
+  
   Collision collision;
   int playerUp;
   int playerHorizontal;
