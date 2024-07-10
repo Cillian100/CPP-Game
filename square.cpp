@@ -7,6 +7,14 @@ square::square(int ex, int why, int wid, int hei){
   height=hei;  
 }
 
+void square::setJump(bool canI){
+  canIJump=canI;
+}
+
+bool square::getJump(){
+  return canIJump;
+}
+
 int square::getX(){
   return x;
 }

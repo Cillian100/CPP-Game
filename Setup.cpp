@@ -5,6 +5,7 @@
 #include "circle.h"
 #include "square.h"
 #include "Collision.h";
+#include "Move.h"
 
 using namespace std;
 
@@ -17,19 +18,20 @@ public:
       player(0, 0, 70, 100),
       object(0, 450, 200, 100),
       squ(0, 0, 800, 600),
-      floor(0, 550, 800, 50){
+      floor(0, 550, 800, 50),
+      platform(100, 400, 150, 20){
     rectShapeFloor.setSize(sf::Vector2f(floor.getWidth(), floor.getHeight()));
     rectShapeFloor.setPosition(floor.getX(), floor.getY());
     rectShapeFloor.setFillColor(sf::Color::Red);
+
+    rectShapePlatform.setSize(sf::Vector2f(platform.getWidth(), platform.getHeight()));
+    rectShapePlatform.setPosition(platform.getX(), platform.getY());
+    rectShapePlatform.setFillColor(sf::Color::Red);
     
     playerSF.setSize(sf::Vector2f(player.getWidth(), player.getHeight()));
     playerSF.setPosition(player.getX(), player.getY());
     playerSF.setFillColor(sf::Color::Red);
     
-    platform.setSize(sf::Vector2f(object.getWidth(),object.getHeight()));
-    platform.setPosition(object.getX(), object.getY());
-    platform.setFillColor(sf::Color::Red);
-
     window.setMouseCursorVisible(false);
     window.setFramerateLimit(61);
 
@@ -71,7 +73,8 @@ public:
           window.close();
         }
       }
-      
+
+      objectMovement();
       playerMovement();
       playerLogic();
       mouseFunction();
@@ -107,6 +110,10 @@ private:
     }
   }
 
+  void objectMovement(){
+    move.platformUpAndDown(platform, 200, 450, 1);
+  }
+
   void playerLogic(){
     if(player.getVelocityY()>0){
       player.setVelocityY(player.getVelocityY() + 0.4);
@@ -123,25 +130,25 @@ private:
 
     if(collision.squarePlatform(player, floor)){
       if(playerUp == JUMP){
+       	player.setVelocityY(-10);
+      }else{
+	player.setVelocityY(1);
+      }	 
+    }
+
+    if(collision.oneWayPlatform(player, platform)){
+      rectShapePlatform.setFillColor(sf::Color::Green);
+    }else{
+      rectShapePlatform.setFillColor(sf::Color::Red);
+    }
+
+    if(player.getJump()){
+      if(playerUp == JUMP){
 	player.setVelocityY(-10);
       }else{
 	player.setVelocityY(1);
       }
-	 
     }
-
-    // if(collision.squareInsideSquare(player, squ)){
-    //   if(playerUp == JUMP){
-    // 	player.setVelocityY(-10);
-    //   }else{
-    // 	player.setVelocityY(1);
-    //   }
-    //   if(player.getY2()>=squ.getY2()){
-    //    	player.setY(squ.getY2() - player.getHeight());
-    //   }
-    // }
-
-    // collision.squareOutsideSquare(player, object);
     
     player.setY(player.getY() + player.getVelocityY());
     player.setX(player.getX() + player.getVelocityX());
@@ -162,11 +169,11 @@ private:
     }
 
     sprite.setPosition(player.getX(),player.getY());
+    rectShapePlatform.setPosition(platform.getX(), platform.getY());
     window.draw(sprite);
-    //window.draw(platform);
+    window.draw(rectShapePlatform);
     window.draw(rectShapeFloor);
-    window.display();
-    
+    window.display();    
   }
 
   void calculate(){
@@ -198,7 +205,6 @@ private:
   sf::CircleShape shape;
   sf::CircleShape cursor;
   sf::RectangleShape box;
-  sf::RectangleShape platform;
   sf::Event event;
   sf::Font font;
   sf::Text text;
@@ -208,6 +214,7 @@ private:
   sf::Texture backgroundTexture;
   sf::Sprite backgroundSprite;
   sf::RectangleShape rectShapeFloor;
+  sf::RectangleShape rectShapePlatform;
   
   float fps;
   bool mousePressed;
@@ -218,8 +225,10 @@ private:
   square squ;
   square object;
   square floor;
+  square platform;
   
   Collision collision;
+  Move move;
   int playerUp;
   int playerHorizontal;
 
