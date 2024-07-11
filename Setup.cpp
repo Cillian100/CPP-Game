@@ -6,6 +6,7 @@
 #include "square.h"
 #include "Collision.h";
 #include "Move.h"
+#include "StartingScreen.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ public:
       object(0, 450, 200, 100),
       squ(0, 0, 800, 600),
       floor(0, 550, 800, 50),
+      startingScreen(window),
       platform(100, 400, 150, 20){
     rectShapeFloor.setSize(sf::Vector2f(floor.getWidth(), floor.getHeight()));
     rectShapeFloor.setPosition(floor.getX(), floor.getY());
@@ -63,6 +65,7 @@ public:
   void gameLoop() {
     sf::Time t1 = sf::milliseconds(10);
     sf::Clock clock;
+    gameLevelInteger=STARTING_SCREEN;    
     
     while (window.isOpen()) {
       float currentTime = clock.restart().asSeconds();
@@ -74,13 +77,18 @@ public:
         }
       }
 
-      objectMovement();
-      playerMovement();
-      playerLogic();
-      mouseFunction();
-      calculate();
-      render();
+      if(gameLevelInteger==STARTING_SCREEN){
+	startingScreen.gameLoop();
+      }else{
+	objectMovement();
+	playerMovement();
+	playerLogic();
+	mouseFunction();
+	calculate();
+	render();
+      }
     }
+    
   }
   
 private:
@@ -160,7 +168,6 @@ private:
     
     window.clear();
     window.draw(backgroundSprite);
-    window.draw(text);
 
     if(mouseBorderCollision){
       cursor.setFillColor(sf::Color::Blue);
@@ -173,6 +180,8 @@ private:
     window.draw(sprite);
     window.draw(rectShapePlatform);
     window.draw(rectShapeFloor);
+    window.draw(text);
+    
     window.display();    
   }
 
@@ -228,9 +237,11 @@ private:
   square platform;
   
   Collision collision;
+  StartingScreen startingScreen;
   Move move;
   int playerUp;
   int playerHorizontal;
+  int gameLevelInteger;
 
   enum playerUpEnum{
     JUMP,
@@ -242,6 +253,13 @@ private:
     LEFT,
     HORIZONTAL_DEFAULT
   };
+
+  enum gameLevel{
+    STARTING_SCREEN,
+    LEVEL_1,
+    LEVEL_2
+  };
+  
 };
 
 int main() {
