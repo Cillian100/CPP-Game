@@ -1,24 +1,55 @@
 #include "StartingScreen.h"
 
-void StartingScreen::gameLoop(){
+int StartingScreen::gameLoop(){
   userInput();
-  render();
+  return render();
 }
 
 void StartingScreen::userInput(){
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-    printf("jef \n");
+    if(!keyPress){
+      currentMenuItem--;
+    }
+    keyPress=true;
+  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+    if(!keyPress){
+      currentMenuItem++;
+    }
+    keyPress=true;
+  }else{
+    keyPress=false;
+  }
+
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)){
+    enterBool=true;
+  }else{
+    enterBool=false;
+  }
+  currentMenuItem=(currentMenuItem%6);
+  if(currentMenuItem<0){
+    currentMenuItem=currentMenuItem+6;
   }
 }
 
-void StartingScreen::render(){
+int StartingScreen::render(){
   window.clear();
   window.draw(backgroundSprite);
   window.draw(text);
   for(int a=0;a<6;a++){
+    if(a==currentMenuItem){
+      menuText[a].setFillColor(sf::Color::Red);
+    }else{
+      menuText[a].setFillColor(sf::Color::White);
+    }
     window.draw(menuText[a]);
   }
   window.display();
+
+  if(currentMenuItem==0 && enterBool){
+    return 1;
+  }else{
+    return 0;
+  }
 }
 
 StartingScreen::StartingScreen(sf::RenderWindow& win) : window(win) 

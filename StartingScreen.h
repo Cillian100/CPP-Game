@@ -8,9 +8,9 @@ class StartingScreen{
   sf::RenderWindow& window;
   
  public:
-  void gameLoop();
+  int gameLoop();
   void userInput();
-  void render();
+  int render();
   StartingScreen(sf::RenderWindow& win);
  private:
   sf::Event event;
@@ -24,4 +24,7 @@ class StartingScreen{
   string menu[6]={"Start Game", "Continue Playing", "View Levels", "View Saves", "Settings", "Exit"};
 
   int currentMenuItem=0;
+
+  bool enterBool;
+  bool keyPress;
 };
