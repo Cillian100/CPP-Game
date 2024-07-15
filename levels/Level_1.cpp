@@ -2,7 +2,10 @@
 
 Level_1::Level_1(sf::RenderWindow& win) :
   window(win),
-  robot(400,400,70,100)
+  robot(0,200,70,100),
+  block_1(0, 500, 100, 100),
+  block_2(100, 500, 100, 100),
+  block_3(200, 400, 100, 100)
 {
   if(!backgroundTexture.loadFromFile("Graphics/backgroundLevel_1.jpg")){
     printf("Couldn't load level one background\n");
@@ -14,11 +17,21 @@ Level_1::Level_1(sf::RenderWindow& win) :
 }
 
 int Level_1::gameLoop(){
+  robot.gameLoop();
+  block_1.gameLoop(robot);
+  block_2.gameLoop(robot);
+  block_3.gameLoop(robot);
   return render();
 }
 
 int Level_1::render(){
   window.clear();
+  
   window.draw(backgroundSprite);
+  window.draw(robot.getSprite());
+  window.draw(block_1.getSprite());
+  window.draw(block_2.getSprite());
+  window.draw(block_3.getSprite());
+  
   window.display();
 }
