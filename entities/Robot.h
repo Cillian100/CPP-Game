@@ -17,11 +17,15 @@ class Robot{
   void setVelocityX(float input);
   void setVelocityY(float input);
   void setJump(bool input);
+  void setCanIMoveRight(bool input);
+  void setCanIMoveLeft(bool input);
+  void setPosition(int inputX, int inputY, int inputVelX, int inputVelY);
   void userInput();
   void userMovement();
   void gameLoop();
   void gravity();
   sf::Sprite getSprite();
+  void setSprite();
   Robot(int inputX, int inputY, int inputWidth, int inputHeight);
  private:
   sf::Sprite sprite;
@@ -35,7 +39,9 @@ class Robot{
   float velocityY;
 
   bool canIJump;
-
+  bool canIMoveRight;
+  bool canIMoveLeft;
+  
   int playerHorizontal;
   int playerJump;
   enum playerHorizontalEnum{

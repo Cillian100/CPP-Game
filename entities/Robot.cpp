@@ -61,12 +61,27 @@ void Robot::setJump(bool input){
   canIJump=input;
 }
 
+void Robot::setCanIMoveRight(bool input){
+  canIMoveRight=input;
+}
+
+void Robot::setCanIMoveLeft(bool input){
+  canIMoveLeft=input;
+}
+
 void Robot::setVelocityY(float input){
   velocityY=input;
 }
 
 void Robot::setVelocityX(float input){
   velocityX=input;
+}
+
+void Robot::setPosition(int inputX, int inputY, int inputVelX, int inputVelY){
+  x=inputX;
+  y=inputY;
+  velocityX=inputVelX;
+  velocityY=inputVelY;
 }
 
 int Robot::getWidth(){
@@ -81,21 +96,32 @@ void Robot::gameLoop(){
   userInput();
   gravity();
   userMovement();
-  cout << "Velocity - " << velocityY << endl;
+  canIJump=false;
+  canIMoveRight=true;
+  canIMoveLeft=true;
+  //  cout << "Vel | " << velocityY << " | Pos | " << y << endl;
+  //  cout << "Hor vel = " << velocityX << " | pos = " << x << endl;
 }
 
 void Robot::gravity(){
   if(getVelocityY()<12){
     setVelocityY(getVelocityY() + 0.4);
   }
+
+  if(canIJump){
+    setVelocityY(0);
+  }
 }
 
 void Robot::userMovement(){
   if(playerHorizontal==RIGHT){
-    setX(getX()+7);
+    setVelocityX(7);
   }
   if(playerHorizontal==LEFT){
-    setX(getX()-7);
+    setVelocityX(-7);
+  }
+  if(playerHorizontal==HORIZONTAL_DEFAULT){
+    setVelocityX(0);
   }
 
   if(playerJump==JUMP_UP && getJump()){
@@ -103,7 +129,8 @@ void Robot::userMovement(){
   }
 
   setY(getY() + getVelocityY());
-  sprite.setPosition(getX(), getY());
+  setX(getX() + getVelocityX());
+  //  sprite.setPosition(getX(), getY());
 }
 
 void Robot::userInput(){
@@ -122,4 +149,8 @@ void Robot::userInput(){
 
 sf::Sprite Robot::getSprite(){
   return sprite;
+}
+
+void Robot::setSprite(){
+  sprite.setPosition(getX(), getY());
 }

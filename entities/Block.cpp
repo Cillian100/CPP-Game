@@ -17,11 +17,13 @@ Block::Block(int inputX, int inputY, int inputHeight, int inputWidth){
 }
 
 void Block::collision(Robot &robot){
-  robot.setJump(false);
   if(getY()<robot.getY2() && getX2()>robot.getX() && getX()<robot.getX2()){
-    robot.setY(getY() - robot.getHeight());
-    robot.setVelocityY(0);
-    robot.setJump(true);
+
+    if(getY()<getY2()+5){
+      robot.setY(getY() - robot.getHeight() + 1);
+      robot.setVelocityY(0);
+      robot.setJump(true);
+    }
   }
 }
 
