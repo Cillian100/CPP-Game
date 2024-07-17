@@ -10,12 +10,12 @@ class Square{
   int getY();  
   int getY2();
 
-  void setHeight();
-  void setWidth();
-  void setX2();
-  void setX();
-  void setY();  
-  void setY2();
+  void setHeight(int input);
+  void setWidth(int input);
+  void setX2(int input);
+  void setX(int input);
+  void setY(int input);  
+  void setY2(int input);
   
  private:
   int x;
