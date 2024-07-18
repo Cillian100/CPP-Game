@@ -10,8 +10,8 @@ class InfoButton : public Square{
   sf::Sprite getSprite();
   sf::Text getText();
   void setSprite();
-  string collision(Robot &robot);
-  InfoButton(int inputX, int inputY, int inputWidth, int inputHeight);
+  void collision(Robot &robot);
+  InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex);
  private:
   sf::Font font;
   sf::Text text;
@@ -19,8 +19,10 @@ class InfoButton : public Square{
   sf::Texture texturePressed;
   sf::Sprite sprite;
 
+  int messageIndex;
+
   string messages[2]={
     "Use the A and D keys to move Left and Right",
-    "Use space to Jump, try to not fall onto the spikes!"
+    "Use W to Jump, try to not fall onto the spikes!"
   };
 };

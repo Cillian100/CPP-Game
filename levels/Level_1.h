@@ -11,29 +11,47 @@ class Level_1{
  public:
   Level_1(sf::RenderWindow& win);
   int gameLoop();
+  void gameOver();  
   int render();
+  void scrolling();
   void userInput();
-  void gameOver();
  private:
   sf::Texture backgroundTexture;
   sf::Texture gameOverTexture;
   sf::Sprite backgroundSprite;
   sf::Sprite gameOverSprite;
+  sf::View view;
+  sf::RenderWindow windowTwo;
+  sf::Vector2i mousePosition;  
 
-  string infoMessage;
-
-  Robot robot;
   Border border;
-  InfoButton infoButton;
-  Block block[9] = {
+  Robot robot;
+
+  int blockNumber=18;
+  
+  InfoButton infoButton[2] = {
+    InfoButton(10, 490, 80, 10, 0),
+    InfoButton(210, 490, 80, 10, 1)
+  };
+
+  Block block[18] = {
     Block(0, 500, 100, 100),
     Block(100, 500, 100, 100),
     Block(200, 500, 100, 100),
-    Block(200, 400, 100, 100),
-    Block(500, 500, 100, 100),
-    Block(500, 400, 100, 100),
-    Block(500, 300, 100, 100),
+    Block(300, 500, 100, 100),
+    Block(300, 400, 100, 100),
     Block(600, 500, 100, 100),
-    Block(700, 500, 100, 100)
+    Block(600, 400, 100, 100),
+    Block(600, 300, 100, 100),
+    Block(700, 500, 100, 100),
+    Block(800, 500, 100, 100),
+    Block(900, 500, 100, 100),
+    Block(1000, 500, 100, 100),
+    Block(1100, 500, 100, 100),
+    Block(1200, 500, 100, 100),
+    Block(1200, 400, 100, 100),
+    Block(1200, 300, 100, 100),
+    Block(1200, 200, 100, 100),
+    Block(1200, 100, 100, 100)
   };
 };
