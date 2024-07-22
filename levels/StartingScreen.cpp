@@ -52,8 +52,7 @@ int StartingScreen::render(){
   }
 }
 
-StartingScreen::StartingScreen(sf::RenderWindow& win) : window(win) 
-{
+StartingScreen::StartingScreen(sf::RenderWindow& win) : window(win) {
   if(!backgroundTexture.loadFromFile("Graphics/StartingScreen.png")){
     printf("Couldn't load starting screen background\n");
   }
