@@ -8,7 +8,7 @@ using namespace std;
 class InfoButton : public Square{
  public:
   sf::Sprite getSprite();
-  sf::Text getText();
+  sf::Text getText(int offset);
   void setSprite();
   void collision(Robot &robot);
   InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex);
@@ -21,8 +21,9 @@ class InfoButton : public Square{
 
   int messageIndex;
 
-  string messages[2]={
+  string messages[3]={
     "Use the A and D keys to move Left and Right",
-    "Use W to Jump, try to not fall onto the spikes!"
+    "Use W to Jump, try to not fall onto the spikes!",
+    "Press H to go back in time"
   };
 };

@@ -1,13 +1,28 @@
 #include "Block.h"
+#include <algorithm>
 
-Block::Block(int inputX, int inputY, int inputHeight, int inputWidth){
-  x=inputX;
-  y=inputY;
-  height=inputHeight;
-  width=inputWidth;
+Block::Block(int inputX, int inputY, int inputHeight, int inputWidth, int inputNumOfSprites, int inputSpriteDirection){
+  setX(inputX);
+  setY(inputY);
+  setHeight(inputHeight);
+  setWidth(inputWidth);
+  numOfSprites=inputNumOfSprites;
+  spriteDirectionInt=inputSpriteDirection;
 
   if(!texture.loadFromFile("Graphics/Block.png")){
     printf("Couldn't load Graphics/Block.png \n");
+  }
+
+  for(int a=0;a<numOfSprites;a++){
+    spriteArray[a].setTexture(texture);
+    spriteArray[a].setTextureRect(sf::IntRect(0,0,100,100));
+    spriteArray[a].setColor(sf::Color(255,255,255,255));
+    if(spriteDirectionInt==SPRITE_RIGHT){
+      spriteArray[a].setPosition(inputX+(a*100),inputY);
+    }
+    if(spriteDirectionInt==SPRITE_DOWN){
+      spriteArray[a].setPosition(inputX,inputY+(a*100));
+    }
   }
 
   sprite.setTexture(texture);
@@ -16,13 +31,22 @@ Block::Block(int inputX, int inputY, int inputHeight, int inputWidth){
   sprite.setPosition(0,0);
 }
 
-void Block::collision(Robot &robot){
-  if(getY()<robot.getY2() && getX2()>robot.getX() && getX()<robot.getX2()){
-
-    if(getY()<getY2()+5){
-      robot.setY(getY() - robot.getHeight() + 1);
-      robot.setVelocityY(0);
-      robot.setJump(true);
+void Block::collision(Robot &square){
+  if(getX()<square.getX2() && getX2()>square.getX() && getY()<square.getY2() && getY2()>square.getY()){
+    int top=abs(getY()-square.getY2());
+    int bottom=abs(getY2()-square.getY());
+    int right=abs(getX2()-square.getX());
+    int left=abs(getX()-square.getX2());
+    
+    if( (right < top) && (right < left) && (right < bottom) ){
+      square.setX(getX2());
+    }else if( (left < top) && (left < right) && (left < bottom) ){
+      square.setX2(getX());
+    }else if( (bottom < top) && (bottom < right) && (bottom < left) ){
+      square.setY(getY2());
+    }else{
+      square.setY2(getY());
+      square.setJump(true);
     }
   }
 }
@@ -36,20 +60,12 @@ sf::Sprite Block::getSprite(){
   return sprite;
 }
 
-int Block::getX(){
-  return x;
+sf::Sprite Block::getSprite2(int apple){
+  return spriteArray[apple];
 }
 
-int Block::getX2(){
-  return x+width;
-}
-
-int Block::getY(){
-  return y;
-}
-
-int Block::getY2(){
-  return y+height;
+int Block::getNumOfSprites(){
+  return numOfSprites;
 }
 
 void Block::setSprite(){

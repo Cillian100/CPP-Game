@@ -34,7 +34,8 @@ sf::Sprite InfoButton::getSprite(){
   return sprite;
 }
 
-sf::Text InfoButton::getText(){
+sf::Text InfoButton::getText(int offset){
+  text.setPosition(20+offset, 20);
   return text;
 }
 

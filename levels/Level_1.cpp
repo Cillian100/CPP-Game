@@ -5,7 +5,8 @@ using namespace std;
 Level_1::Level_1(sf::RenderWindow& win) :
   window(win),
   robot(0,200,70,100),
-  border(0, 0, 1300, 600)
+  border(0, 0, 1300, 600),
+  mouse(0, 0, 24, 30)
 {
   if(!backgroundTexture.loadFromFile("Graphics/backgroundLevel_1.jpg")){
     printf("Couldn't load level one background\n");
@@ -22,23 +23,33 @@ Level_1::Level_1(sf::RenderWindow& win) :
   gameOverSprite.setTextureRect(sf::IntRect(0,0,800,600));
   gameOverSprite.setColor(sf::Color(255,255,255,150));
   gameOverSprite.setPosition(0,0);
+
+  if(!mouseTexture.loadFromFile("Graphics/mouse.png")){
+    printf("Couldn't load mouse.png\n");
+  }
+  mouseSprite.setTexture(mouseTexture);
+  mouseSprite.setTextureRect(sf::IntRect(0,0,24,30));
+  mouseSprite.setColor(sf::Color(255,255,255,255));
+  mouseSprite.setPosition(0,0);
+  clock.restart();
 }
 
 int Level_1::gameLoop(){
+  ticks++;  
   mousePosition=sf::Mouse::getPosition(window);
   robot.gameLoop();
   if(border.collisionGameOver(robot)){
     gameOver();
   }
   border.collisionBlock(robot);
-  for(int a=0;a<2;a++){
+  for(int a=0;a<3;a++){
     infoButton[a].collision(robot);
   }
-  
-  for(int a=0;a<blockNumber;a++){
-    block[a].gameLoop(robot);
-  }
 
+  for(int a=0;a<blockNumber;a++){
+    block[a].collision(robot);
+  }
+  
   robot.setSprite();
   scrolling();
   return render();
@@ -60,23 +71,30 @@ int Level_1::render(){
   
   window.draw(backgroundSprite);
   window.draw(robot.getSprite());
-  for(int a=0;a<2;a++){
-    window.draw(infoButton[a].getSprite());
-    window.draw(infoButton[a].getText());
-  }
   
-  for(int a=0;a<blockNumber;a++){
-    window.draw(block[a].getSprite());
+  for(int a=0;a<3;a++){
+    window.draw(infoButton[a].getSprite());
+    window.draw(infoButton[a].getText(robotX));
   }
 
+  for(int b=0;b<blockNumber;b++){
+    for(int a=0;a<block[b].getNumOfSprites();a++){
+      window.draw(block[b].getSprite2(a));
+    }
+  }
+  
+  mouseSprite.setPosition(mouse.getX() + robotX, mouse.getY() );
+  window.draw(mouseSprite);
+  printf("ticks %d \n", ticks );
+  
   window.display();
   windowTwo.display();
 }
 
 
 void Level_1::scrolling(){
-  int robotX = robot.getX()-200;
-  int robotY = robot.getY();
+  robotX = robot.getX()-200;
+  robotY = robot.getY();
 
   if(robotX<0){
     robotX=0;

@@ -3,10 +3,10 @@
 using namespace std;
 
 Robot::Robot(int inputX, int inputY, int inputWidth, int inputHeight){
-  x=inputX;
-  y=inputY;
-  width=inputWidth;
-  height=inputHeight;
+  setX(inputX);
+  setY(inputY);
+  setWidth(inputWidth);
+  setHeight(inputHeight);
 
   velocityY=0;
   velocityX=0;
@@ -21,22 +21,6 @@ Robot::Robot(int inputX, int inputY, int inputWidth, int inputHeight){
   sprite.setPosition(0,0);
 }
 
-int Robot::getX(){
-  return x;
-}
-
-int Robot::getX2(){
-  return x+getWidth();
-}
-
-int Robot::getY(){
-  return y;
-}
-
-int Robot::getY2(){
-  return y+getHeight();
-}
-
 bool Robot::getJump(){
   return canIJump;
 }
@@ -47,14 +31,6 @@ float Robot::getVelocityX(){
 
 float Robot::getVelocityY(){
   return velocityY;
-}
-
-void Robot::setX(int inputX){
-  x=inputX;
-}
-
-void Robot::setY(int inputY){
-  y=inputY;
 }
 
 void Robot::setJump(bool input){
@@ -78,19 +54,19 @@ void Robot::setVelocityX(float input){
 }
 
 void Robot::setPosition(int inputX, int inputY, int inputVelX, int inputVelY){
-  x=inputX;
-  y=inputY;
+  setX(inputX);
+  setY(inputY);
   velocityX=inputVelX;
   velocityY=inputVelY;
 }
 
-int Robot::getWidth(){
-  return width;
-}
+// int Robot::getWidth(){
+//   return width;
+// }
 
-int Robot::getHeight(){
-  return height;
-}
+// int Robot::getHeight(){
+//   return height;
+// }
 
 void Robot::gameLoop(){
   userInput();
@@ -99,8 +75,6 @@ void Robot::gameLoop(){
   canIJump=false;
   canIMoveRight=true;
   canIMoveLeft=true;
-  //  cout << "Vel | " << velocityY << " | Pos | " << y << endl;
-  //  cout << "Hor vel = " << velocityX << " | pos = " << x << endl;
 }
 
 void Robot::gravity(){

@@ -1,26 +1,29 @@
 #include <SFML/Graphics.hpp>
 #include "Robot.h"
+#include "Square.h"
+#include <string>
 #pragma once
 
-class Block{
+class Block : public Square{
  public:
-  int getX();
-  int getX2();
-  int getY();
-  int getY2();
-  int getHeight();
-  int getWidth();
+  int getNumOfSprites();
   void gameLoop(Robot &robot);
   sf::Sprite getSprite();
+  sf::Sprite getSprite2(int apple);
   void setSprite();
   void collision(Robot &robot);
-  Block(int inputX, int inputY, int inputHeight, int inputWidth);
+  Block(int inputX, int inputY, int inputHeight, int inputWidth, int inputNumOfSprites, int inputSpriteDirection);
  private:
   sf::Sprite sprite;
   sf::Texture texture;
+  sf::Sprite spriteArray[5];
+  int numOfSprites;
+  int spriteDirectionInt;
   
-  int x;
-  int y;
-  int height;
-  int width;
+  enum spriteDirection{
+    SPRITE_UP,
+    SPRITE_DOWN,
+    SPRITE_RIGHT,
+    SPRITE_LEFT
+  };
 };
