@@ -5,6 +5,7 @@ using namespace std;
 Level_1::Level_1(sf::RenderWindow& win) :
   window(win),
   robot(0,200,70,100),
+  robotClone(0, 200, 70, 100),
   border(0, 0, 1300, 600),
   mouse(0, 0, 24, 30)
 {
@@ -32,24 +33,48 @@ Level_1::Level_1(sf::RenderWindow& win) :
   mouseSprite.setColor(sf::Color(255,255,255,255));
   mouseSprite.setPosition(0,0);
   clock.restart();
+
+  pairKey=make_pair(0, 'g');
+  vecOfPairs.push_back(pairKey);
 }
 
 int Level_1::gameLoop(){
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
+    timeLoop();
+  }
+  printf("podge %d\n", vecOfPairs.at(0));
+  if(vecOfPairs.at(0).first==ticks){
+  //  robotClone.automatedInput(vecOfPairs.at(0).second);
+    printf("my name jef %d %c\n", vecOfPairs.at(0).first, vecOfPairs.at(0).second);
+    if(vecOfPairs.size()>1){
+      vecOfPairs.erase(vecOfPairs.begin());
+    }
+    
+  }
   ticks++;  
   mousePosition=sf::Mouse::getPosition(window);
+  robot.userInput(ticks);
+  //  robotClone.automatedInput('D');
   robot.gameLoop();
+  robotClone.gameLoop();
+  
   if(border.collisionGameOver(robot)){
     gameOver();
   }
   border.collisionBlock(robot);
+  
   for(int a=0;a<3;a++){
     infoButton[a].collision(robot);
   }
-
   for(int a=0;a<blockNumber;a++){
     block[a].collision(robot);
   }
-  
+
+  for(int a=0;a<blockNumber;a++){
+    block[a].collision(robotClone);
+  }
+
+  robotClone.setSprite();
   robot.setSprite();
   scrolling();
   return render();
@@ -59,7 +84,14 @@ void Level_1::gameOver(){
   window.clear();
   window.draw(gameOverSprite);
   window.display();
-  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){ }
+  vecOfPairs=robot.getVector();
+  // while(vecOfPairs.size()>0){
+  //   cout << vecOfPairs.at(0).first << " "<< vecOfPairs.at(0).second << endl;
+  //   vecOfPairs.erase(vecOfPairs.begin());
+  // }
+  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+
+  }
   robot.setPosition(0, 200, 0, 0);
 }
 
@@ -71,6 +103,7 @@ int Level_1::render(){
   
   window.draw(backgroundSprite);
   window.draw(robot.getSprite());
+  window.draw(robotClone.getSprite());
   
   for(int a=0;a<3;a++){
     window.draw(infoButton[a].getSprite());
@@ -85,7 +118,7 @@ int Level_1::render(){
   
   mouseSprite.setPosition(mouse.getX() + robotX, mouse.getY() );
   window.draw(mouseSprite);
-  printf("ticks %d \n", ticks );
+  printf("ticks %d", ticks );
   
   window.display();
   windowTwo.display();
@@ -102,4 +135,15 @@ void Level_1::scrolling(){
 
   backgroundSprite.setPosition(robotX, 0);
   view.reset(sf::FloatRect(robotX, 0, 800, 600));
+}
+
+void Level_1::timeLoop(){
+  ticks=0;
+  robot.setPosition(0, 100, 0, 0);
+
+  vecOfPairs=robot.getVector();
+  // while(vecOfPairs.size()>0){
+  //   cout << vecOfPairs.at(0).first << " " << vecOfPairs.at(0).second << endl;
+  //   vecOfPairs.erase(vecOfPairs.begin());
+  // }
 }

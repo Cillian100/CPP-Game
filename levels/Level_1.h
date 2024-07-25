@@ -4,7 +4,9 @@
 #include "../entities/Border.h"
 #include "../entities/InfoButton.h"
 #include "../entities/Mouse.h"
+#include "../entities/RobotClone.h"
 #include <string>
+#include <vector>
 #pragma once
 
 class Level_1{
@@ -15,6 +17,7 @@ class Level_1{
   void gameOver();  
   int render();
   void scrolling();
+  void timeLoop();
   void userInput();
  private:
   sf::Clock clock;
@@ -31,6 +34,7 @@ class Level_1{
   Border border;
   Mouse mouse;  
   Robot robot;
+  RobotClone robotClone;
 
   int blockNumber=5;
   int offsetHorizontal;
@@ -39,6 +43,8 @@ class Level_1{
   int robotY;
   long int ticks=0;
   
+  vector<pair<int, char>> vecOfPairs;
+  pair<int, char> pairKey;
   
   InfoButton infoButton[3]={
     InfoButton(10, 490, 80, 10, 0),
@@ -47,11 +53,11 @@ class Level_1{
   };
 
   Block block[5]={
-    Block(0, 500, 100, 500, 5, 2),
-    Block(400, 400, 200, 100, 1, 1),
-    Block(800, 400, 200, 100, 1, 1),
-    Block(800, 500, 100, 500, 5, 2),
-    Block(1300, 200, 500, 100, 4, 1)
+    Block(0, 500, 500, 100, 5, 2),
+    Block(400, 400, 100, 200, 1, 1),
+    Block(800, 400, 100, 200, 1, 1),
+    Block(800, 500, 500, 100, 5, 2),
+    Block(1300, 200, 100, 500, 4, 1)
   };
   
 };

@@ -1,11 +1,9 @@
 #include "Block.h"
 #include <algorithm>
 
-Block::Block(int inputX, int inputY, int inputHeight, int inputWidth, int inputNumOfSprites, int inputSpriteDirection){
-  setX(inputX);
-  setY(inputY);
-  setHeight(inputHeight);
-  setWidth(inputWidth);
+Block::Block(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumOfSprites, int inputSpriteDirection)
+  :Square(inputX, inputY, inputWidth, inputHeight)
+{
   numOfSprites=inputNumOfSprites;
   spriteDirectionInt=inputSpriteDirection;
 

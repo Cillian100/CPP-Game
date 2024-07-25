@@ -2,23 +2,16 @@
 #include <iostream>
 using namespace std;
 
-Robot::Robot(int inputX, int inputY, int inputWidth, int inputHeight){
-  setX(inputX);
-  setY(inputY);
-  setWidth(inputWidth);
-  setHeight(inputHeight);
-
+Robot::Robot(int inputX, int inputY, int inputWidth, int inputHeight)
+  : Square(inputX, inputY, inputWidth, inputHeight)
+{
   velocityY=0;
   velocityX=0;
 
-  if(!texture.loadFromFile("Graphics/robot.png")){
+  if(!setTexture("Graphics/robot.png")){
     printf("couldn't load robot \n");
   }
-
-  sprite.setTexture(texture);
-  sprite.setTextureRect(sf::IntRect(0,0,70,100));
-  sprite.setColor(sf::Color(255, 255, 255, 255));
-  sprite.setPosition(0,0);
+  setSpriteSetUp();
 }
 
 bool Robot::getJump(){
@@ -33,6 +26,10 @@ float Robot::getVelocityY(){
   return velocityY;
 }
 
+sf::Texture& Robot::getTexture(){
+  return texture;
+}
+
 void Robot::setJump(bool input){
   canIJump=input;
 }
@@ -43,6 +40,17 @@ void Robot::setCanIMoveRight(bool input){
 
 void Robot::setCanIMoveLeft(bool input){
   canIMoveLeft=input;
+}
+
+bool Robot::setTexture(string classpath){
+  return texture.loadFromFile(classpath);
+}
+
+void Robot::setSpriteSetUp(){
+  sprite.setTexture(getTexture());
+  sprite.setTextureRect(sf::IntRect(0,0,70,100));
+  sprite.setColor(sf::Color(255, 255, 255, 255));
+  sprite.setPosition(0,0);  
 }
 
 void Robot::setVelocityY(float input){
@@ -60,21 +68,14 @@ void Robot::setPosition(int inputX, int inputY, int inputVelX, int inputVelY){
   velocityY=inputVelY;
 }
 
-// int Robot::getWidth(){
-//   return width;
-// }
-
-// int Robot::getHeight(){
-//   return height;
-// }
-
 void Robot::gameLoop(){
-  userInput();
   gravity();
   userMovement();
   canIJump=false;
   canIMoveRight=true;
   canIMoveLeft=true;
+  playerHorizontal=HORIZONTAL_DEFAULT;
+  playerJump=JUMP_DEFAULT;
 }
 
 void Robot::gravity(){
@@ -107,16 +108,24 @@ void Robot::userMovement(){
   //  sprite.setPosition(getX(), getY());
 }
 
-void Robot::userInput(){
+void Robot::userInput(int ticks){
   playerHorizontal=HORIZONTAL_DEFAULT;
   playerJump=JUMP_DEFAULT;
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+    printf(" A ");
+    pairKey=make_pair(ticks, 'A');
+    vecOfPairs.push_back(pairKey);
     playerHorizontal=LEFT;
-  }
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+    printf(" D ");
+    pairKey=make_pair(ticks, 'D');
+    vecOfPairs.push_back(pairKey);
     playerHorizontal=RIGHT;
   }
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+    printf(" W ");
+    pairKey=make_pair(ticks, 'W');
+    vecOfPairs.push_back(pairKey);
     playerJump=JUMP_UP;
   }
 }
@@ -125,6 +134,30 @@ sf::Sprite Robot::getSprite(){
   return sprite;
 }
 
+vector<pair<int, char>> Robot::getVector(){
+  return vecOfPairs;
+}
+
 void Robot::setSprite(){
   sprite.setPosition(getX(), getY());
+}
+
+void Robot::setXAndWhy(){
+  setY(getY() + getVelocityY());
+  setX(getX() + getVelocityX());  
+}
+
+
+
+void Robot::setPlayerHorizontal(int input){
+  playerHorizontal=input;
+}
+void Robot::setPlayerJump(int input){
+  playerJump=input;
+}
+int Robot::getPlayerHorizontal(){
+  return playerHorizontal;
+}
+int Robot::getPlayerJump(){
+  return playerJump;
 }

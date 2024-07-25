@@ -1,5 +1,12 @@
 #include "Square.h"
 
+Square::Square(int inputX, int inputY, int inputWidth, int inputHeight){
+  setX(inputX);
+  setY(inputY);
+  setWidth(inputWidth);
+  setHeight(inputHeight);
+}
+
 int Square::getHeight(){
   return height;
 }

@@ -1,10 +1,8 @@
 #include "InfoButton.h"
 
-InfoButton::InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex){
-  setX(inputX);
-  setY(inputY);
-  setHeight(inputHeight);
-  setWidth(inputWidth);
+InfoButton::InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex)
+  :Square(inputX, inputY, inputWidth, inputHeight)
+{
   messageIndex=inputMessageIndex;
 
   if(!textureUnPressed.loadFromFile("Graphics/InfoButtonUnPressed.png")){
