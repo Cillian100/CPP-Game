@@ -36,11 +36,12 @@ class Level_1{
   Robot robot;
   RobotClone robotClone;
 
-  int blockNumber=5;
+  int blockNumber=6;
   int offsetHorizontal;
   int offsetVertical;
   int robotX;
   int robotY;
+  int numberOfRobotClones=1;
   long int ticks=0;
   
   vector<pair<int, char>> vecOfPairs;
@@ -52,12 +53,14 @@ class Level_1{
     InfoButton(1110, 490, 80, 10, 2)
   };
 
-  Block block[5]={
+  Block block[6]={
     Block(0, 500, 500, 100, 5, 2),
     Block(400, 400, 100, 200, 1, 1),
     Block(800, 400, 100, 200, 1, 1),
     Block(800, 500, 500, 100, 5, 2),
-    Block(1300, 200, 100, 500, 4, 1)
+    Block(1400, 100, 100, 300, 3, 2),   
+    Block(1300, 100, 100, 500, 6, 1)
   };
+
   
 };

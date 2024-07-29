@@ -112,18 +112,15 @@ void Robot::userInput(int ticks){
   playerHorizontal=HORIZONTAL_DEFAULT;
   playerJump=JUMP_DEFAULT;
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-    printf(" A ");
     pairKey=make_pair(ticks, 'A');
     vecOfPairs.push_back(pairKey);
     playerHorizontal=LEFT;
   }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-    printf(" D ");
     pairKey=make_pair(ticks, 'D');
     vecOfPairs.push_back(pairKey);
     playerHorizontal=RIGHT;
   }
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-    printf(" W ");
     pairKey=make_pair(ticks, 'W');
     vecOfPairs.push_back(pairKey);
     playerJump=JUMP_UP;

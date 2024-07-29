@@ -5,10 +5,11 @@ using namespace std;
 Level_1::Level_1(sf::RenderWindow& win) :
   window(win),
   robot(0,200,70,100),
-  robotClone(0, 200, 70, 100),
-  border(0, 0, 1300, 600),
+  robotClone(200, 400, 70, 100),
+  border(0, 0, 1800, 600),
   mouse(0, 0, 24, 30)
 {
+
   if(!backgroundTexture.loadFromFile("Graphics/backgroundLevel_1.jpg")){
     printf("Couldn't load level one background\n");
   }
@@ -34,7 +35,7 @@ Level_1::Level_1(sf::RenderWindow& win) :
   mouseSprite.setPosition(0,0);
   clock.restart();
 
-  pairKey=make_pair(0, 'g');
+  pairKey=make_pair(696969696969, 'g');
   vecOfPairs.push_back(pairKey);
 }
 
@@ -42,21 +43,32 @@ int Level_1::gameLoop(){
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
     timeLoop();
   }
-  printf("podge %d\n", vecOfPairs.at(0));
-  if(vecOfPairs.at(0).first==ticks){
-  //  robotClone.automatedInput(vecOfPairs.at(0).second);
-    printf("my name jef %d %c\n", vecOfPairs.at(0).first, vecOfPairs.at(0).second);
+  
+  while(vecOfPairs.at(0).first==ticks){
+    printf("%c %d\n", vecOfPairs.at(0).second, vecOfPairs.size() );
+    robotClone.automatedInput(vecOfPairs.at(0).second);
     if(vecOfPairs.size()>1){
       vecOfPairs.erase(vecOfPairs.begin());
-    }
-    
+    }else{
+      break;
+    }    
   }
+  
   ticks++;  
   mousePosition=sf::Mouse::getPosition(window);
   robot.userInput(ticks);
-  //  robotClone.automatedInput('D');
   robot.gameLoop();
-  robotClone.gameLoop();
+
+  if(numberOfRobotClones>0){
+    robotClone.gameLoop();
+    border.collisionBlock(robotClone);
+
+    for(int a=0;a<blockNumber;a++){
+      block[a].collision(robotClone);
+    }
+
+    robotClone.setSprite();    
+  }
   
   if(border.collisionGameOver(robot)){
     gameOver();
@@ -70,11 +82,9 @@ int Level_1::gameLoop(){
     block[a].collision(robot);
   }
 
-  for(int a=0;a<blockNumber;a++){
-    block[a].collision(robotClone);
-  }
 
-  robotClone.setSprite();
+  robotClone.robotOnRobotCollision(robot);
+
   robot.setSprite();
   scrolling();
   return render();
@@ -85,12 +95,7 @@ void Level_1::gameOver(){
   window.draw(gameOverSprite);
   window.display();
   vecOfPairs=robot.getVector();
-  // while(vecOfPairs.size()>0){
-  //   cout << vecOfPairs.at(0).first << " "<< vecOfPairs.at(0).second << endl;
-  //   vecOfPairs.erase(vecOfPairs.begin());
-  // }
   while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-
   }
   robot.setPosition(0, 200, 0, 0);
 }
@@ -104,6 +109,8 @@ int Level_1::render(){
   window.draw(backgroundSprite);
   window.draw(robot.getSprite());
   window.draw(robotClone.getSprite());
+
+  
   
   for(int a=0;a<3;a++){
     window.draw(infoButton[a].getSprite());
@@ -115,11 +122,7 @@ int Level_1::render(){
       window.draw(block[b].getSprite2(a));
     }
   }
-  
-  mouseSprite.setPosition(mouse.getX() + robotX, mouse.getY() );
-  window.draw(mouseSprite);
-  printf("ticks %d", ticks );
-  
+
   window.display();
   windowTwo.display();
 }
@@ -127,23 +130,28 @@ int Level_1::render(){
 
 void Level_1::scrolling(){
   robotX = robot.getX()-200;
-  robotY = robot.getY();
+
+  if(robot.getY()<100){
+    robotY=robot.getY()-100;
+  }else{
+    robotY=0;
+  }
 
   if(robotX<0){
     robotX=0;
   }
+  if(robotX>900){
+    robotX=900;
+  }
 
-  backgroundSprite.setPosition(robotX, 0);
-  view.reset(sf::FloatRect(robotX, 0, 800, 600));
+  backgroundSprite.setPosition(robotX, robotY);
+  view.reset(sf::FloatRect(robotX, robotY, 800, 600));
 }
 
 void Level_1::timeLoop(){
   ticks=0;
   robot.setPosition(0, 100, 0, 0);
-
+  robotClone.setPosition(0, 200, 0, 0);
   vecOfPairs=robot.getVector();
-  // while(vecOfPairs.size()>0){
-  //   cout << vecOfPairs.at(0).first << " " << vecOfPairs.at(0).second << endl;
-  //   vecOfPairs.erase(vecOfPairs.begin());
-  // }
+  numberOfRobotClones++;
 }

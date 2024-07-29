@@ -14,7 +14,7 @@ RobotClone::RobotClone(int inputX, int inputY, int inputWidth, int inputHeight)
 }
 
 void RobotClone::getPosition(){
-  printf("X %d - Y %d\n", getX(), getY());
+  //  printf("X %d - Y %d\n", getX(), getY());
 }
 
 void RobotClone::automatedInput(char key){
@@ -23,10 +23,28 @@ void RobotClone::automatedInput(char key){
   }
   if(key=='D'){
     setPlayerHorizontal(RIGHT);
-    //    playerHorizontal=RIGHT;
   }
   if(key=='W'){
-    setPlayerHorizontal(JUMP_UP);
-    //    playerJump=JUMP_UP;
+    setPlayerJump(JUMP_UP);
   }
+}
+
+void RobotClone::robotOnRobotCollision(Robot &robot){
+  if(getX()<robot.getX2() && getX2()>robot.getX() && getY()<robot.getY2() && getY2()>robot.getY()){
+    int top=abs(getY()-robot.getY2());
+    int bottom=abs(getY2()-robot.getY());
+    int right=abs(getX2()-robot.getX());
+    int left=abs(getX()-robot.getX2());
+    
+    if( (right < top) && (right < left) && (right < bottom) ){
+      robot.setX(getX2());
+    }else if( (left < top) && (left < right) && (left < bottom) ){
+      robot.setX2(getX());
+    }else if( (bottom < top) && (bottom < right) && (bottom < left) ){
+      robot.setY(getY2());
+    }else{
+      robot.setY2(getY());
+      robot.setJump(true);
+    }
+  }  
 }

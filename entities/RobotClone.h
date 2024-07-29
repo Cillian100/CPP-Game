@@ -10,6 +10,7 @@ class RobotClone : public Robot{
  public:
   void getPosition();
   void automatedInput(char key);
+  void robotOnRobotCollision(Robot &robot);
   RobotClone(int inputX, int inputY, int inputWidth, int inputHeight);
  private:
 };

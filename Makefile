@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = Setup.cpp triangle.cpp circle.cpp square.cpp Collision.cpp Move.cpp line.cpp
+OBJS = Setup.cpp levels/StartingScreen.cpp entities/Robot.cpp entities/Block.cpp levels/Level_1.cpp entities/Border.cpp entities/Square.cpp entities/InfoButton.cpp entities/Mouse.cpp entities/RobotClone.cpp entities/EndPoint.cpp
 
 CC = g++
 COMPILER_FLAGS = -w
