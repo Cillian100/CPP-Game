@@ -2,14 +2,14 @@
 #include "Square.h"
 #include "Robot.h"
 #include <string>
-//using namepsace std;
 #pragma once
 
 class EndPoint : public Square{
  public:
   sf::Sprite getSprite();
   void setSprite();
-  void collision(Robot &robot);
+  bool collision(Robot &robot);
+  int middleX();
   EndPoint(int inputX, int inputY, int inputWidth, int inputHeight);
  private:
   sf::Texture textureUno;

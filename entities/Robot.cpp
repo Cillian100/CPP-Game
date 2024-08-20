@@ -125,6 +125,8 @@ void Robot::userInput(int ticks){
     vecOfPairs.push_back(pairKey);
     playerJump=JUMP_UP;
   }
+
+  cout << "stored: " << vecOfPairs.size() << endl;
 }
 
 sf::Sprite Robot::getSprite(){
@@ -135,6 +137,18 @@ vector<pair<int, char>> Robot::getVector(){
   return vecOfPairs;
 }
 
+void Robot::setVecOfPairsClear(){
+  vecOfPairs.clear();
+}
+
+void Robot::printVector(){
+  for(auto podge : vecOfPairs){
+    cout << "jef " << podge.first << " " << podge.second << endl;
+  }
+
+  cout << "finnished iterating " << endl;
+}
+
 void Robot::setSprite(){
   sprite.setPosition(getX(), getY());
 }
@@ -143,8 +157,6 @@ void Robot::setXAndWhy(){
   setY(getY() + getVelocityY());
   setX(getX() + getVelocityX());  
 }
-
-
 
 void Robot::setPlayerHorizontal(int input){
   playerHorizontal=input;

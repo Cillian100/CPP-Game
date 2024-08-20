@@ -25,6 +25,9 @@ class Robot : public Square{
   bool setTexture(string classPath);
   void setSpriteSetUp();
   void setXAndWhy();
+  void setVecOfPairsClear();
+
+  void printVector();
   
   void userInput(int ticks);
   void userMovement();

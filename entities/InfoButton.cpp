@@ -19,6 +19,7 @@ InfoButton::InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, 
   sprite.setPosition(inputX, inputY);
 
   if(!font.loadFromFile("Graphics/font.ttf")){
+    printf("Couldn't load fonts!\n");
   }
 
   text.setFont(font);

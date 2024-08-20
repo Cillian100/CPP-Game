@@ -24,6 +24,6 @@ class InfoButton : public Square{
   string messages[3]={
     "Use the A and D keys to move Left and Right",
     "Use W to Jump, try to not fall onto the spikes!",
-    "Press H to go back in time"
+    "Press H to go back in time. Press R to fully restart level."
   };
 };

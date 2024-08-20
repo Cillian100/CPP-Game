@@ -3,13 +3,33 @@
 EndPoint::EndPoint(int inputX, int inputY, int inputWidth, int inputHeight) :
   Square(inputX, inputY, inputWidth, inputHeight)
 {
+
+  if(!textureUno.loadFromFile("Graphics/endPoint.png")){
+    printf("Couldn't load endPoint.png");
+  }
+  spriteUno.setTexture(textureUno);
+  spriteUno.setTextureRect(sf::IntRect(0,0,inputWidth,inputHeight));
+  spriteUno.setColor(sf::Color(255,255,255,255));
+  spriteUno.setPosition(inputX, inputY);
 }
 
 sf::Sprite EndPoint::getSprite(){
+  return spriteUno;
 }
 
 void EndPoint::setSprite(){
 }
 
-void EndPoint::collision(Robot &robot){
+int EndPoint::middleX(){
+  return (getX()+getX2() )/2;
+}
+
+bool EndPoint::collision(Robot &robot){
+  if(  getY()<=robot.getY() && getY2()>=robot.getY2() && middleX()>robot.getX() && middleX()<robot.getX2() ){
+    printf("Collision! \n");
+    return true;
+  }else{
+    //    printf("Not!\n");
+    return false;
+  }
 }
