@@ -70,7 +70,5 @@ class Level_1{
     Block(1300, 100, 100, 500, 6, 1)
   };
 
-  string gameWinString="You completed Level 1.\nPress space to continue";
-
-  
+  string gameWinString="You completed Level 1.\nPress space to continue";  
 };

@@ -33,12 +33,12 @@ Level_1::Level_1(sf::RenderWindow& win) :
   mouseSprite.setTextureRect(sf::IntRect(0,0,24,30));
   mouseSprite.setColor(sf::Color(255,255,255,255));
   mouseSprite.setPosition(0,0);
+
   clock.restart();
 
   if(!font.loadFromFile("Graphics/font.ttf")){
     printf("Couldn't load font.ttf");
   }
-
   text.setFont(font);
   text.setCharacterSize(90);
   text.setStyle(sf::Text::Regular);
@@ -58,7 +58,6 @@ int Level_1::gameLoop(){
     if(canITimeLoop){
       timeLoop();
     }
-    cout << "wocky slosh \n" ;
   }
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
     fullReset();
@@ -210,6 +209,7 @@ void Level_1::gameWin(){
   window.display();
   while(1){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+      nextLevel=true;
       return; 
     }
   }

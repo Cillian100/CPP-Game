@@ -20,14 +20,15 @@ public:
   }
 
   void gameLoop() {
+    //scanf("%d", gameLevelInteger);
+    
     sf::Time t1 = sf::milliseconds(10);
     sf::Clock clock;
-    gameLevelInteger=STARTING_SCREEN;    
+    gameLevelInteger=LEVEL_2;
     
     while (window.isOpen()) {
       float currentTime = clock.restart().asSeconds();
       fps = 1.0f/(currentTime);
-      //      printf("\n%1.0f ", fps);
       
       while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -39,9 +40,9 @@ public:
 	gameLevelInteger = startingScreen.gameLoop();
       }else if(gameLevelInteger==LEVEL_1){
 	gameLevelInteger = level_1.gameLoop();
-      }// else if(gameLevelInteger==LEVEL_2){
-      // 	level_2.gameLoop();
-      // }
+      }else if(gameLevelInteger==LEVEL_2){
+       	level_2.gameLoop();
+      }
       
     } 
   }
@@ -64,7 +65,7 @@ private:
   
 };
 
-int main() {
+int main(int argc, char *argv[]) {
   Game game;
   game.gameLoop();
   return 0;
