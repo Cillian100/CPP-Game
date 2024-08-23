@@ -16,6 +16,7 @@ class Square{
   void setX(int input);
   void setY(int input);  
   void setY2(int input);
+  void setStuff(int inputX, int inputY, int inputWidth, int inputHeight);
 
   Square(int inputX, int inputY, int inputWidth, int inputHeight);
   

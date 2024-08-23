@@ -1,10 +1,8 @@
 #include "Border.h"
 
-Border::Border(int inputX, int inputY, int inputWidth, int inputHeight){
-  x=inputX;
-  y=inputY;
-  width=inputWidth;
-  height=inputHeight;
+Border::Border(int inputX, int inputY, int inputWidth, int inputHeight)
+  : Square(inputX, inputY, inputWidth, inputHeight)
+{
 }
 
 void Border::collisionBlock(Robot &robot){
@@ -26,20 +24,4 @@ bool Border::collisionGameOver(Robot &robot){
   }else{
     return false;
   }
-}
-
-int Border::getX(){
-  return x;
-}
-
-int Border::getY(){
-  return y;
-}
-
-int Border::getWidth(){
-  return width;
-}
-
-int Border::getHeight(){
-  return height;
 }

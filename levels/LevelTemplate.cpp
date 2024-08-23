@@ -1,7 +1,9 @@
 #include "LevelTemplate.h"
 
-LevelTemplate::LevelTemplate(sf::RenderWindow& win)
-  :window(win)
+LevelTemplate::LevelTemplate(sf::RenderWindow& win) :
+  robot(0,200,70,100),
+  border(0,0,0,0),
+  window(win)
 {
  if(!gameOverTexture.loadFromFile("Graphics/GameOverScreen.png")){
     printf("Couldn't load game over screen");
@@ -25,19 +27,38 @@ LevelTemplate::LevelTemplate(sf::RenderWindow& win)
   vecOfPairs.push_back(pairKey);
 }
 
-int LevelTemplate::gameLoop(){
-  render();
+void LevelTemplate::templateLoop(){
+  ticks++;
+  robot.gameLoop();
+  robot.userInput(ticks);
+  for(int a=0;a<blockNumber;a++){
+    block[a].collision(robot);
+  }
+  robot.setSprite();
 }
 
-int LevelTemplate::render(){
+void LevelTemplate::templateRender(){
   window.clear();
+  window.setView(view);
   window.draw(backgroundSprite);
-
+  window.draw(robot.getSprite());
   for(int a=0;a<blockNumber;a++){
-    for(int b=0;b<block[b].getNumOfSprites();b++){
-      window.draw(block[b].getSprite2(a));
+    for(int b=0;b<block[a].getNumOfSprites();b++){
+      window.draw(block[a].getSprite2(b));
     }
   }
-  
   window.display();
+}
+
+void LevelTemplate::templateScrolling(){
+  robotX = robot.getX()-200;
+  if(robotX<border.getX()){
+    robotX=border.getX();
+  }
+  if(robotX>border.getX2()-700){
+    robotX=border.getX2()-700;
+  }
+
+  backgroundSprite.setPosition(robotX, robotY);
+  view.reset(sf::FloatRect(robotX, robotY, 800, 600));
 }

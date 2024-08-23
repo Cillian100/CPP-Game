@@ -3,17 +3,13 @@
 
 #pragma once
 
-class Border{
+class Border : public Square{
  public:
   Border(int inputX, int inputY, int inputWidth, int inputHeight);
 
   bool collisionGameOver(Robot &robot);
   void collisionBlock(Robot &robot);
   
-  int getX();
-  int getY();
-  int getHeight();
-  int getWidth();  
  private:
   int x;
   int y;

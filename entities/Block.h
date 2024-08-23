@@ -11,6 +11,7 @@ class Block : public Square{
   sf::Sprite getSprite();
   sf::Sprite getSprite2(int apple);
   void setSprite();
+  void setStuffBlock(int inputX, int inputY, int inputHeight, int inputWidth, int inputNumOfSprites, int inputSpriteDirection);
   void collision(Robot &robot);
   Block(int inputX, int inputY, int inputHeight, int inputWidth, int inputNumOfSprites, int inputSpriteDirection);
  private:

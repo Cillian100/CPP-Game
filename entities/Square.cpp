@@ -54,3 +54,10 @@ void Square::setY(int input){
 void Square::setY2(int input){
   y=input-height;
 }
+
+void Square::setStuff(int inputX, int inputY, int inputWidth, int inputHeight){
+  x=inputX;
+  y=inputY;
+  width=inputWidth;
+  height=inputHeight;
+}

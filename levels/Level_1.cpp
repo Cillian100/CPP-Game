@@ -91,7 +91,6 @@ int Level_1::gameLoop(){
     }
     robotClone.setSprite();
     robotClone.robotOnRobotCollision(robot);
-    
   }
   
   if(border.collisionGameOver(robot)){

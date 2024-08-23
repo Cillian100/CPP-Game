@@ -13,5 +13,23 @@ Level_2::Level_2(sf::RenderWindow& win) :
   backgroundSprite.setTextureRect(sf::IntRect(0,0,800,600));
   backgroundSprite.setColor(sf::Color(255,255,255,255));
   backgroundSprite.setPosition(0,0);
+
+  blockNumber=7;
+  block[0].setStuffBlock(0, 400, 500, 100, 5, 2);
+  block[1].setStuffBlock(800, 400, 500, 100, 5, 2);
+  border.setStuff(0, 0, 1200, 1000);
+}
+
+int Level_2::gameLoop(){
+  templateLoop();
+  templateScrolling();  
+  templateRender();
+}
+
+int Level_2::render(){
+  window.clear();
+  window.draw(backgroundSprite);
+  window.draw(robot.getSprite());
+  window.display();
 }
 

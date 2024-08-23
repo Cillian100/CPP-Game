@@ -69,3 +69,22 @@ int Block::getNumOfSprites(){
 void Block::setSprite(){
   sprite.setPosition(getX(), getY());
 }
+
+void Block::setStuffBlock(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumOfSprites, int inputSpriteDirection){
+  setStuff(inputX, inputY, inputWidth, inputHeight);
+  numOfSprites=inputNumOfSprites;
+  spriteDirectionInt=inputSpriteDirection;
+
+  for(int a=0;a<numOfSprites;a++){
+    spriteArray[a].setTexture(texture);
+    spriteArray[a].setTextureRect(sf::IntRect(0,0,100,100));
+    spriteArray[a].setColor(sf::Color(255,255,255,255));
+    if(spriteDirectionInt==SPRITE_RIGHT){
+      spriteArray[a].setPosition(inputX+(a*100),inputY);
+    }
+    if(spriteDirectionInt==SPRITE_DOWN){
+      spriteArray[a].setPosition(inputX,inputY+(a*100));
+    }
+  }
+  
+}
