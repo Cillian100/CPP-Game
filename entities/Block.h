@@ -17,7 +17,7 @@ class Block : public Square{
  private:
   sf::Sprite sprite;
   sf::Texture texture;
-  sf::Sprite spriteArray[5];
+  sf::Sprite spriteArray[15];
   int numOfSprites;
   int spriteDirectionInt;
   

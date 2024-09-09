@@ -1,0 +1,36 @@
+#include <SFML/Graphics.hpp>
+#include "Square.h"
+#include "Robot.h"
+#include <string>
+#pragma once
+
+class Lazer : public Square{
+ public:
+  sf::Sprite getSprite();
+  void setSprite();
+  void buttonCollision();
+  sf::Sprite getSpriteUno(int apple);
+  sf::Sprite getSpriteDos(int apple);
+  sf::Sprite getButtonSprite();
+  int getNumberOfSprites();
+  bool collision();
+  int middleX();
+  Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int buttonX, int buttonY);
+ private:
+  int numberOfSprites;
+  int directionOfSprites;
+  int buttonX;
+  int buttonY;
+  int buttonWidth;
+  int buttonHeight;
+    
+		     
+  sf::Texture textureUno;
+  sf::Texture textureDos;
+  sf::Sprite spriteUno[2];
+  sf::Sprite spriteDos[10];
+
+  sf::Texture textureButtonUnPressed;
+  sf::Texture textureButtonPressed;
+  sf::Sprite spriteButton;
+};

@@ -126,7 +126,7 @@ void Robot::userInput(int ticks){
     playerJump=JUMP_UP;
   }
 
-  cout << "stored: " << vecOfPairs.size() << endl;
+  //cout << "stored: " << vecOfPairs.size() << endl;
 }
 
 sf::Sprite Robot::getSprite(){

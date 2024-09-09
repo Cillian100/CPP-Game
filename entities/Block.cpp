@@ -22,11 +22,6 @@ Block::Block(int inputX, int inputY, int inputWidth, int inputHeight, int inputN
       spriteArray[a].setPosition(inputX,inputY+(a*100));
     }
   }
-
-  sprite.setTexture(texture);
-  sprite.setTextureRect(sf::IntRect(0,0,100,100));
-  sprite.setColor(sf::Color(255,255,255,255));
-  sprite.setPosition(0,0);
 }
 
 void Block::collision(Robot &square){
@@ -86,5 +81,4 @@ void Block::setStuffBlock(int inputX, int inputY, int inputWidth, int inputHeigh
       spriteArray[a].setPosition(inputX,inputY+(a*100));
     }
   }
-  
 }

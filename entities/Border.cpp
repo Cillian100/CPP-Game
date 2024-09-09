@@ -25,3 +25,14 @@ bool Border::collisionGameOver(Robot &robot){
     return false;
   }
 }
+
+void Border::setStuffPodge(int inputX, int inputY, int inputWidth, int inputHeight){
+  x=inputX;
+  y=inputY;
+  width=inputWidth;
+  height=inputHeight;
+}
+
+int Border::getX2(){
+  return x+width;
+}

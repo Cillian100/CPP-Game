@@ -34,6 +34,7 @@ void LevelTemplate::templateLoop(){
   for(int a=0;a<blockNumber;a++){
     block[a].collision(robot);
   }
+  border.collisionBlock(robot);
   robot.setSprite();
 }
 
@@ -47,16 +48,21 @@ void LevelTemplate::templateRender(){
       window.draw(block[a].getSprite2(b));
     }
   }
-  window.display();
+  //  window.display();
 }
 
 void LevelTemplate::templateScrolling(){
   robotX = robot.getX()-200;
+  robotY = robot.getY()-300;
+
+  if(robotY<0){
+    robotY=0;
+  }
   if(robotX<border.getX()){
     robotX=border.getX();
   }
-  if(robotX>border.getX2()-700){
-    robotX=border.getX2()-700;
+  if(robotX>border.getX2()-800){
+    robotX=border.getX2()-800;
   }
 
   backgroundSprite.setPosition(robotX, robotY);

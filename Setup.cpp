@@ -20,8 +20,6 @@ public:
   }
 
   void gameLoop() {
-    //scanf("%d", gameLevelInteger);
-    
     sf::Time t1 = sf::milliseconds(10);
     sf::Clock clock;
     gameLevelInteger=LEVEL_2;
