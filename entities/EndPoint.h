@@ -10,6 +10,7 @@ class EndPoint : public Square{
   void setSprite();
   bool collision(Robot &robot);
   int middleX();
+  void setStuffPodge(int inputX, int inputY, int inputWidth, int inputHeight);
   EndPoint(int inputX, int inputY, int inputWidth, int inputHeight);
  private:
   sf::Texture textureUno;

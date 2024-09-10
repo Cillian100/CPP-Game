@@ -43,6 +43,7 @@ void LevelTemplate::templateLoop(){
 }
 
 void LevelTemplate::gameWin(){
+  
 }
 
 void LevelTemplate::templateRender(){

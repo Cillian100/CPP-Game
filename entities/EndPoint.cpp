@@ -24,6 +24,15 @@ int EndPoint::middleX(){
   return (getX()+getX2() )/2;
 }
 
+void EndPoint::setStuffPodge(int inputX, int inputY, int inputWidth, int inputHeight){
+  setX(inputX);
+  setY(inputY);
+  setWidth(inputWidth);
+  setHeight(inputHeight);
+  spriteUno.setPosition(inputX, inputY);
+  spriteUno.setTextureRect(sf::IntRect(0,0,inputWidth, inputHeight));
+}
+
 bool EndPoint::collision(Robot &robot){
   if(  getY()<=robot.getY() && getY2()>=robot.getY2() && middleX()>robot.getX() && middleX()<robot.getX2() ){
     printf("Collision! \n");

@@ -2,6 +2,7 @@
 #include "../entities/Robot.h"
 #include "../entities/Block.h"
 #include "../entities/Border.h"
+#include "../entities/EndPoint.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,6 +16,7 @@ class LevelTemplate{
   void templateLoop();
   void templateRender();
   void templateScrolling();
+  void gameWin();
   int blockNumber=0;
 
   sf::Clock clock;
@@ -30,6 +32,8 @@ class LevelTemplate{
   long int ticks=0;
   int robotX;
   int robotY;
+  string youWon1="You completed level";
+  string youWon2="Press space to continue";
 
   Robot robot;
   Block block[7]={
@@ -42,6 +46,7 @@ class LevelTemplate{
     Block(0,0,0,0,0,0)
   };
   Border border;
+  EndPoint endPoint;
 
  private:
 };

@@ -20,6 +20,10 @@ class Lazer : public Square{
   int getButtonX2();
   int getButtonY();
   int getButtonY2();
+  int getLazerX();
+  int getLazerX2();
+  int getLazerY();
+  int getLazerY2();
   Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int buttonX, int buttonY);
  private:
   int numberOfSprites;

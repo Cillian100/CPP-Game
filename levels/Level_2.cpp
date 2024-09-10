@@ -22,12 +22,15 @@ Level_2::Level_2(sf::RenderWindow& win) :
   block[2].setStuffBlock(400, 400, 100, 400, 5, 1);
   block[3].setStuffBlock(400, 900, 900, 100, 9, 2);
   border.setStuffPodge(0, 0, 1300, 1000);
+  endPoint.setStuffPodge(1200, 780, 90, 120);
 }
 
 int Level_2::gameLoop(){
   templateLoop();
   lazerUno.buttonCollision(robot);
+  lazerUno.lazerCollision(robot);
   lazerDos.buttonCollision(robot);
+  lazerDos.lazerCollision(robot);
   templateScrolling();
   templateRender();
 
