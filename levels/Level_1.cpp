@@ -50,6 +50,8 @@ Level_1::Level_1(sf::RenderWindow& win) :
 }
 
 int Level_1::gameLoop(){
+  printf("robey %d %d \n", robot.getX(), robot.getY());
+  printf("clone %d %d \n", robotClone.getX(), robotClone.getY());
   if(nextLevel==true){
     return 2;
   }
@@ -84,7 +86,7 @@ int Level_1::gameLoop(){
 
   if(numberOfRobotClones>0){
     robotClone.gameLoop();
-    border.collisionBlock(robotClone);
+    //border.collisionBlock(robotClone);
 
     for(int a=0;a<blockNumber;a++){
       block[a].collision(robotClone);
@@ -93,10 +95,10 @@ int Level_1::gameLoop(){
     robotClone.robotOnRobotCollision(robot);
   }
   
-  if(border.collisionGameOver(robot)){
-    gameOver();
-  }
-  border.collisionBlock(robot);
+  //  if(border.collisionGameOver(robot)){
+    //gameOver();
+  //}
+  //border.collisionBlock(robot);
   
   for(int a=0;a<3;a++){
     infoButton[a].collision(robot);

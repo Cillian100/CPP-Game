@@ -8,13 +8,18 @@ class Lazer : public Square{
  public:
   sf::Sprite getSprite();
   void setSprite();
-  void buttonCollision();
+  void buttonCollision(Robot &robot);
+  void lazerCollision(Robot &robot);
   sf::Sprite getSpriteUno(int apple);
   sf::Sprite getSpriteDos(int apple);
   sf::Sprite getButtonSprite();
   int getNumberOfSprites();
   bool collision();
   int middleX();
+  int getButtonX();
+  int getButtonX2();
+  int getButtonY();
+  int getButtonY2();
   Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int buttonX, int buttonY);
  private:
   int numberOfSprites;

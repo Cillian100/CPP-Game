@@ -47,6 +47,8 @@ int StartingScreen::render(){
 
   if(currentMenuItem==0 && enterBool){
     return 1;
+  }else if(currentMenuItem==2 && enterBool){
+    return 10;
   }else{
     return 0;
   }

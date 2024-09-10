@@ -26,6 +26,8 @@ Level_2::Level_2(sf::RenderWindow& win) :
 
 int Level_2::gameLoop(){
   templateLoop();
+  lazerUno.buttonCollision(robot);
+  lazerDos.buttonCollision(robot);
   templateScrolling();
   templateRender();
 

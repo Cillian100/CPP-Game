@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "levels/StartingScreen.h"
+#include "levels/ViewLevels.h"
 #include "levels/Level_1.h"
 #include "levels/Level_2.h"
 
@@ -12,6 +13,7 @@ public:
   Game()
     : window(sf::VideoMode(800, 600), "Platformer!"),
       startingScreen(window),
+      viewLevels(window),
       level_1(window),
       level_2(window)
   {    
@@ -22,7 +24,7 @@ public:
   void gameLoop() {
     sf::Time t1 = sf::milliseconds(10);
     sf::Clock clock;
-    gameLevelInteger=LEVEL_2;
+    gameLevelInteger=STARTING_SCREEN;
     
     while (window.isOpen()) {
       float currentTime = clock.restart().asSeconds();
@@ -40,6 +42,8 @@ public:
 	gameLevelInteger = level_1.gameLoop();
       }else if(gameLevelInteger==LEVEL_2){
        	level_2.gameLoop();
+      }else if(gameLevelInteger==10){
+	gameLevelInteger = viewLevels.gameLoop();
       }
       
     } 
@@ -51,6 +55,7 @@ private:
   
   float fps;
   StartingScreen startingScreen;
+  ViewLevels viewLevels;
   Level_1 level_1;
   Level_2 level_2;
   int gameLevelInteger;
