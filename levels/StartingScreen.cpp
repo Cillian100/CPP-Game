@@ -32,6 +32,8 @@ void StartingScreen::userInput(){
 }
 
 int StartingScreen::render(){
+  //view.reset(sf::FloatRect(0,0,800,600));
+  window.setView(window.getDefaultView());
   window.clear();
   window.draw(backgroundSprite);
   window.draw(text);
@@ -49,6 +51,8 @@ int StartingScreen::render(){
     return 1;
   }else if(currentMenuItem==2 && enterBool){
     return 10;
+  }else if(currentMenuItem==4 && enterBool){
+    return 11;
   }else{
     return 0;
   }

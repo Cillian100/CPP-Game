@@ -23,10 +23,13 @@ Level_2::Level_2(sf::RenderWindow& win) :
   block[3].setStuffBlock(400, 900, 900, 100, 9, 2);
   border.setStuffPodge(0, 0, 1300, 1000);
   endPoint.setStuffPodge(1200, 780, 90, 120);
+  currentLevel=2;
 }
 
 int Level_2::gameLoop(){
-  templateLoop();
+  if(templateLoop()!=currentLevel){
+    return 3;
+  }
   lazerUno.buttonCollision(robot);
   lazerUno.lazerCollision(robot);
   lazerDos.buttonCollision(robot);
@@ -52,6 +55,8 @@ int Level_2::gameLoop(){
 
   window.display();
   printf("%d %d \n", robot.getX(), robot.getY());
+  
+  return 2;
 }
 
 int Level_2::render(){

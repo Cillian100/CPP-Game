@@ -13,10 +13,10 @@ class LevelTemplate{
   sf::RenderWindow& window;
  public:
   LevelTemplate(sf::RenderWindow& win);
-  void templateLoop();
+  int templateLoop();
   void templateRender();
   void templateScrolling();
-  void gameWin();
+  int gameWin();
   int blockNumber=0;
 
   sf::Clock clock;
@@ -32,8 +32,9 @@ class LevelTemplate{
   long int ticks=0;
   int robotX;
   int robotY;
-  string youWon1="You completed level";
-  string youWon2="Press space to continue";
+  string youWon1="You completed level ";
+  string youWon2="\nPress space to continue";
+  int currentLevel;
 
   Robot robot;
   Block block[7]={

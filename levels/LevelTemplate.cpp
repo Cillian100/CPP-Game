@@ -28,7 +28,7 @@ LevelTemplate::LevelTemplate(sf::RenderWindow& win) :
   vecOfPairs.push_back(pairKey);
 }
 
-void LevelTemplate::templateLoop(){
+int LevelTemplate::templateLoop(){
   ticks++;
   robot.gameLoop();
   robot.userInput(ticks);
@@ -37,12 +37,20 @@ void LevelTemplate::templateLoop(){
   }
   border.collisionBlock(robot);
   if( endPoint.collision(robot) ){
-    gameWin();
+    return gameWin();
   }
   robot.setSprite();
+  return currentLevel;
 }
 
-void LevelTemplate::gameWin(){
+int LevelTemplate::gameWin(){
+  text.setString(youWon1 + to_string(currentLevel) + youWon2);
+  text.setPosition(view.getCenter().x-380, view.getCenter().y-280);
+  window.draw(text);
+  window.display();
+  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+  }
+  return currentLevel+1;
 }
 
 void LevelTemplate::templateRender(){

@@ -3,6 +3,7 @@
 #include <string>
 #include "levels/StartingScreen.h"
 #include "levels/ViewLevels.h"
+#include "levels/Settings.h"
 #include "levels/Level_1.h"
 #include "levels/Level_2.h"
 
@@ -14,6 +15,7 @@ public:
     : window(sf::VideoMode(800, 600), "Platformer!"),
       startingScreen(window),
       viewLevels(window),
+      settings(window),
       level_1(window),
       level_2(window)
   {    
@@ -41,10 +43,15 @@ public:
       }else if(gameLevelInteger==LEVEL_1){
 	gameLevelInteger = level_1.gameLoop();
       }else if(gameLevelInteger==LEVEL_2){
-       	level_2.gameLoop();
+       	gameLevelInteger = level_2.gameLoop();
       }else if(gameLevelInteger==10){
 	gameLevelInteger = viewLevels.gameLoop();
+      }else if(gameLevelInteger==11){
+	gameLevelInteger = settings.gameLoop();
+      }else{
+	gameLevelInteger = startingScreen.gameLoop();
       }
+      printf("%d \n", gameLevelInteger);
       
     } 
   }
@@ -56,6 +63,7 @@ private:
   float fps;
   StartingScreen startingScreen;
   ViewLevels viewLevels;
+  Settings settings;
   Level_1 level_1;
   Level_2 level_2;
   int gameLevelInteger;
