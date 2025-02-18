@@ -22,6 +22,7 @@ class Level_1{
   void timeLoop();
   void fullReset();
   void userInput();
+  bool canITimeLoopFunction();
  private:
   sf::Clock clock;
   sf::Texture backgroundTexture;
@@ -34,6 +35,7 @@ class Level_1{
   sf::Vector2i mousePosition;
   sf::Font font;
   sf::Text text;
+  sf::Text errorText;
 
   Border border;
   Mouse mouse;  
@@ -43,6 +45,7 @@ class Level_1{
 
   bool canITimeLoop=true;
   bool nextLevel=false;
+  bool displayMaxNumberOfRobotsErrorMessage=false;
   
   int blockNumber=6;
   int offsetHorizontal;
@@ -50,6 +53,8 @@ class Level_1{
   int robotX;
   int robotY;
   int numberOfRobotClones=0;
+  int maxNumberOfRobotClones=1;
+  int errorMessageTicks=0;
   long int ticks=0;
   
   vector<pair<int, char>> vecOfPairs;
@@ -70,5 +75,6 @@ class Level_1{
     Block(1300, 100, 100, 500, 6, 1)
   };
 
-  string gameWinString="You completed Level 1.\nPress space to continue";  
+  string gameWinString="You completed Level 1.\nPress space to continue";
+  string maxNumberOfRobotsErrorMessageSting="You have exceeded the allowed amount\nof robots for this level!";
 };

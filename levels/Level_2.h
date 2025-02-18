@@ -9,7 +9,6 @@ class Level_2 : public LevelTemplate{
   sf::RenderWindow& window;
  public:
   Lazer lazerUno;
-  Lazer lazerDos;
   Level_2(sf::RenderWindow& win);
   int gameLoop();
   int render();  

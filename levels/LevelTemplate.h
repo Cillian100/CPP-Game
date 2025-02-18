@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "../entities/Robot.h"
+#include "../entities/RobotClone.h"
 #include "../entities/Block.h"
 #include "../entities/Border.h"
 #include "../entities/EndPoint.h"
@@ -16,6 +17,9 @@ class LevelTemplate{
   int templateLoop();
   void templateRender();
   void templateScrolling();
+  void fullResetTemplate();
+  int gameLose();
+  void timeLoop();
   int gameWin();
   int blockNumber=0;
 
@@ -34,9 +38,16 @@ class LevelTemplate{
   int robotY;
   string youWon1="You completed level ";
   string youWon2="\nPress space to continue";
+  string youDied="Ouch! Your poor robot has died!\n Press space to start again";
   int currentLevel;
+  int numberOfRobotClones=0;
 
   Robot robot;
+  RobotClone robotClone[2]={
+    RobotClone(0, 0, 70, 100),
+    RobotClone(0, 0, 70, 100)
+  };
+    
   Block block[7]={
     Block(0,0,0,0,0,0),
     Block(0,0,0,0,0,0),

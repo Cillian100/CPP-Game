@@ -29,18 +29,69 @@ LevelTemplate::LevelTemplate(sf::RenderWindow& win) :
 }
 
 int LevelTemplate::templateLoop(){
+  while(vecOfPairs.at(0).first==ticks){
+    robotClone[0].automatedInput(vecOfPairs.at(0).second);
+    if(vecOfPairs.size()>1){
+      vecOfPairs.erase(vecOfPairs.begin());
+    }else{
+      break;
+    }
+  }
+
   ticks++;
   robot.gameLoop();
+  robotClone[0].gameLoop();
   robot.userInput(ticks);
+  
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
+    timeLoop();
+  }
+
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
+    fullResetTemplate();
+  }
+  
   for(int a=0;a<blockNumber;a++){
     block[a].collision(robot);
+    block[a].collision(robotClone[0]);
   }
   border.collisionBlock(robot);
+  border.collisionBlock(robotClone[0]);
+  
+  if(numberOfRobotClones>0){
+    robotClone[0].robotOnRobotCollision(robot);
+  }
+  
   if( endPoint.collision(robot) ){
     return gameWin();
   }
+
+  if( robot.getDieOrNot() == true){
+    return gameLose();
+  }
+  
   robot.setSprite();
+  robotClone[0].setSprite();
+  
   return currentLevel;
+}
+
+void LevelTemplate::timeLoop(){
+  numberOfRobotClones++;
+  robotClone[0].setPosition(0,200,0,0);
+  robot.setPosition(0,100,0,0);
+  if(vecOfPairs.size()<10){
+    vecOfPairs=robot.getVector();
+  }
+  robot.setVecOfPairsClear();
+  ticks=0;
+}
+
+void LevelTemplate::fullResetTemplate(){
+  numberOfRobotClones=0;
+  robot.setPosition(0,200,0,0);
+  robot.setVecOfPairsClear();
+  ticks=0;
 }
 
 int LevelTemplate::gameWin(){
@@ -49,8 +100,21 @@ int LevelTemplate::gameWin(){
   window.draw(text);
   window.display();
   while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+    
   }
   return currentLevel+1;
+}
+
+int LevelTemplate::gameLose(){
+  text.setCharacterSize(70);
+  text.setString(youDied);
+  text.setPosition(view.getCenter().x-380, view.getCenter().y-280);
+  window.draw(text);
+  window.display();
+  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+      text.setCharacterSize(90);
+  }
+  return currentLevel;
 }
 
 void LevelTemplate::templateRender(){
@@ -58,13 +122,15 @@ void LevelTemplate::templateRender(){
   window.setView(view);
   window.draw(backgroundSprite);
   window.draw(robot.getSprite());
+  if(numberOfRobotClones>0){
+    window.draw(robotClone[0].getSprite());
+  }
   window.draw(endPoint.getSprite());
   for(int a=0;a<blockNumber;a++){
     for(int b=0;b<block[a].getNumOfSprites();b++){
       window.draw(block[a].getSprite2(b));
     }
   }
-  //  window.display();
 }
 
 void LevelTemplate::templateScrolling(){

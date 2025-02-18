@@ -44,20 +44,39 @@ Level_1::Level_1(sf::RenderWindow& win) :
   text.setStyle(sf::Text::Regular);
   text.setFillColor(sf::Color::White);
   text.setString(gameWinString);
+
+  errorText.setFont(font);
+  errorText.setCharacterSize(40);
+  errorText.setStyle(sf::Text::Regular);
+  errorText.setFillColor(sf::Color::White);
+  errorText.setString(maxNumberOfRobotsErrorMessageSting);
   
   pairKey=make_pair(696969696969, 'g');
   vecOfPairs.push_back(pairKey);
 }
 
+bool Level_1::canITimeLoopFunction(){
+  printf("Hello! %d %d\n", ticks, numberOfRobotClones);
+  if(ticks> 50 && numberOfRobotClones>=maxNumberOfRobotClones){
+    displayMaxNumberOfRobotsErrorMessage=true;
+    errorMessageTicks=0;
+  }
+  
+  if(ticks>50 && numberOfRobotClones<maxNumberOfRobotClones){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 int Level_1::gameLoop(){
-  printf("robey %d %d \n", robot.getX(), robot.getY());
-  printf("clone %d %d \n", robotClone.getX(), robotClone.getY());
+  //printf("%d \n", ticks);
   if(nextLevel==true){
     return 2;
   }
   
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
-    if(canITimeLoop){
+    if(canITimeLoopFunction()){
       timeLoop();
     }
   }
@@ -66,7 +85,7 @@ int Level_1::gameLoop(){
   }
   
   while(vecOfPairs.at(0).first==ticks){
-    printf("%c %d\n", vecOfPairs.at(0).second, vecOfPairs.size() );
+    //printf("%c %d\n", vecOfPairs.at(0).second, vecOfPairs.size() );
     robotClone.automatedInput(vecOfPairs.at(0).second);
     if(vecOfPairs.size()>1){
       vecOfPairs.erase(vecOfPairs.begin());
@@ -86,19 +105,13 @@ int Level_1::gameLoop(){
 
   if(numberOfRobotClones>0){
     robotClone.gameLoop();
-    //border.collisionBlock(robotClone);
-
+  
     for(int a=0;a<blockNumber;a++){
       block[a].collision(robotClone);
     }
     robotClone.setSprite();
     robotClone.robotOnRobotCollision(robot);
   }
-  
-  //  if(border.collisionGameOver(robot)){
-    //gameOver();
-  //}
-  //border.collisionBlock(robot);
   
   for(int a=0;a<3;a++){
     infoButton[a].collision(robot);
@@ -153,6 +166,12 @@ int Level_1::render(){
     }
   }
 
+  if(errorMessageTicks<100 && displayMaxNumberOfRobotsErrorMessage){
+    errorText.setPosition(robotX, robotY);
+    window.draw(errorText);
+    errorMessageTicks++;
+  }
+
   window.draw(endPoint.getSprite());
 
   window.display();
@@ -188,7 +207,7 @@ void Level_1::timeLoop(){
   cout << "important " << vecOfPairs.size() << endl;
   robot.setVecOfPairsClear();
   cout << "important2 " << vecOfPairs.size() << endl;
-  numberOfRobotClones=1;
+  numberOfRobotClones++;
   canITimeLoop=false;
 }
 
