@@ -24,6 +24,7 @@ Lazer::Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputN
   spriteButton.setTextureRect(sf::IntRect(0,0,80,10));
   spriteButton.setColor(sf::Color(255, 255, 255, 255));
   spriteButton.setPosition(buttonX, buttonY);
+  buttonPressed=false;
   
   for(int a=0;a<2;a++){
     spriteUno[a].setTexture(textureUno);
@@ -46,12 +47,16 @@ Lazer::Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputN
     spriteDos[a].setTexture(textureDos);
     spriteDos[a].setTextureRect(sf::IntRect(0, 0, 100, 20));
     spriteDos[a].setColor(sf::Color(255, 255, 255, 255));
+    
     if(directionOfSprites==1){
       spriteDos[a].setPosition(inputX+(a*100), inputY+40);
     }else{
       spriteDos[a].setRotation(90);
       spriteDos[a].setPosition(inputX+60, inputY+(a*100));
     }
+
+    printf("poop king 69 %d \n", spriteDos[a].getPosition().x);
+    
   }
 }
 
@@ -120,23 +125,30 @@ int Lazer::getButtonY2(){
 }
 
 void Lazer::lazerCollision(Robot &robot){
-  if(getLazerX() < robot.getX2() && getLazerX2() > robot.getX() && getLazerY() < robot.getY2() && getLazerY2() > robot.getY()){
-    printf("collision \n");
+  if(buttonPressed==false && getLazerX() < robot.getX2() && getLazerX2() > robot.getX() && getLazerY() < robot.getY2() && getLazerY2() > robot.getY()){
+    printf("collision X %d %d\n", getLazerX(), robot.getX2() );
+    printf("collision Y %d %d\n", getLazerY2(), robot.getY() );
+    printf("sprite %d", spriteDos[0].getPosition().x );    
+    robot.setDie(true);
   }else{
-    printf("not collision \n");
+    //    printf("not collision \n");
   }
 }
 
-void Lazer::buttonCollision(Robot &robot){
-  if(getButtonX() < robot.getX2() && getButtonX2() > robot.getX() && getButtonY() < robot.getY2() && getButtonY2() > robot.getY()){
-    spriteButton.setTexture(textureButtonPressed);
-    for(int a=0;a<numberOfSprites;a++){
-      spriteDos[a].setColor(sf::Color(0, 0, 0, 0));
-    }
-  }else{
-    spriteButton.setTexture(textureButtonUnPressed);
-    for(int a=0;a<numberOfSprites;a++){
-      spriteDos[a].setColor(sf::Color(255, 255, 255, 255));      
+void Lazer::buttonCollision(Robot robot[10]){
+  spriteButton.setTexture(textureButtonUnPressed);
+  buttonPressed=false;
+  for(int a=0;a<numberOfSprites;a++){
+    spriteDos[a].setColor(sf::Color(255, 255, 255, 255));      
+  }
+
+  for(int a=0;a<2;a++){
+    if(getButtonX() < robot[a].getX2() && getButtonX2() > robot[a].getX() && getButtonY() < robot[a].getY2() && getButtonY2() > robot[a].getY()){
+      spriteButton.setTexture(textureButtonPressed);
+      buttonPressed=true;
+      for(int a=0;a<numberOfSprites;a++){
+	spriteDos[a].setColor(sf::Color(0, 0, 0, 0));
+      }
     }
   }
 }

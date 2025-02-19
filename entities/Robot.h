@@ -33,6 +33,8 @@ class Robot : public Square{
   void userMovement();
   void gameLoop();
   void gravity();
+  void setDie(bool orNot);
+  bool getDieOrNot();
   sf::Sprite getSprite();
   void setSprite();
   Robot(int inputX, int inputY, int inputWidth, int inputHeight);
@@ -61,6 +63,7 @@ class Robot : public Square{
   bool canIJump;
   bool canIMoveRight;
   bool canIMoveLeft;
+  bool deadOrNot;
 
   vector<pair<int, char>> vecOfPairs;
   pair<int, char> pairKey;

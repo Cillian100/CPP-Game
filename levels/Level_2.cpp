@@ -23,6 +23,7 @@ Level_2::Level_2(sf::RenderWindow& win) :
   border.setStuffPodge(0, 0, 1300, 1000);
   endPoint.setStuffPodge(1200, 680, 90, 120);
   currentLevel=2;
+  maxNumberOfRobotClones=1;
 }
 
 int Level_2::gameLoop(){
@@ -48,14 +49,3 @@ int Level_2::gameLoop(){
   
   return 2;
 }
-
-int Level_2::render(){
-  window.clear();
-  window.draw(backgroundSprite);
-  window.draw(robot.getSprite());
-  for(int a=0;a<2;a++){
-    window.draw(lazerUno.getSpriteUno(a));
-  }
-  window.display();
-}
-

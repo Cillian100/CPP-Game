@@ -1,34 +1,10 @@
 #include "ViewLevels.h"
 
-int ViewLevels::gameLoop(){
-  templateUserInput();
-  if(exitBool==true){
-    exitBool=false;
-    return 0;
-  }
-  return render();
-}
-
-int ViewLevels::render(){
-  window.clear();
-  templateRender();
-  for(int a=0;a<numberOfMenuItems;a++){
-    window.draw(levelIconSprite[a]);
-  }
-
-  window.display();
-  if(enterBool==true){
-    return currentMenuItem+1;
-  }else{
-    return 10;
-  }
-}
-
 ViewLevels::ViewLevels(sf::RenderWindow& win)
   :    SettingTemplate(win),
        window(win)
 {
-  numberOfMenuItems=2;  
+  numberOfMenuItems=3;  
 
   for(int a=0;a<numberOfMenuItems;a++){
     if(!levelIconTexture[a].loadFromFile("Graphics/level_" + to_string(a+1) + "_icon.png")){
@@ -48,3 +24,29 @@ ViewLevels::ViewLevels(sf::RenderWindow& win)
     text[a].setString("level " + to_string(a));
   }
 }
+
+int ViewLevels::gameLoop(){
+  templateUserInput();
+  if(exitBool==true){
+    exitBool=false;
+    return 0;
+  }
+  return render();
+}
+
+int ViewLevels::render(){
+  window.clear();
+  templateRender();
+  for(int a=0;a<numberOfMenuItems;a++){
+    window.draw(levelIconSprite[a]);
+  }
+
+  window.display();
+  if(enterBool==true){
+    enterBool=false;
+    return currentMenuItem+1;
+  }else{
+    return 10;
+  }
+}
+

@@ -1,0 +1,15 @@
+#include <SFML/Graphics.hpp>
+#include "Robot.h"
+#include "Square.h"
+#include <string>
+#pragma once
+
+class Trapdoor : public Square{
+ public:
+  void collision();
+  Trapdoor(int inputX, int inputY, int buttonX, int buttonY);
+ private:
+  sf::Sprite spriteUno;
+  sf::Sprite spriteDos;
+  sf::Texture texture;
+}

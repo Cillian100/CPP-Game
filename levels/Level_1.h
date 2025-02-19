@@ -6,11 +6,12 @@
 #include "../entities/Mouse.h"
 #include "../entities/RobotClone.h"
 #include "../entities/EndPoint.h"
+#include "LevelTemplate.h"
 #include <string>
 #include <vector>
 #pragma once
 
-class Level_1{
+class Level_1 : public LevelTemplate{
   sf::RenderWindow& window;
  public:
   Level_1(sf::RenderWindow& win);
@@ -38,7 +39,6 @@ class Level_1{
   sf::Text errorText;
 
   Border border;
-  Mouse mouse;  
   Robot robot;
   RobotClone robotClone;
   EndPoint endPoint;

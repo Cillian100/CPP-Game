@@ -4,11 +4,11 @@ using namespace std;
 
 Level_1::Level_1(sf::RenderWindow& win) :
   window(win),
+  LevelTemplate(win),
   robot(0,200,70,100),
   robotClone(200, 400, 70, 100),
   border(0, 0, 1800, 600),
-  endPoint(1605, -20, 90,120),
-  mouse(0, 0, 24, 30)
+  endPoint(1605, -20, 90,120)
 {
   if(!backgroundTexture.loadFromFile("Graphics/backgroundLevel_1.jpg")){
     printf("Couldn't load level one background\n");
@@ -57,11 +57,10 @@ Level_1::Level_1(sf::RenderWindow& win) :
 
 bool Level_1::canITimeLoopFunction(){
   printf("Hello! %d %d\n", ticks, numberOfRobotClones);
-  if(ticks> 50 && numberOfRobotClones>=maxNumberOfRobotClones){
+  if(ticks>50 && numberOfRobotClones>=maxNumberOfRobotClones){
     displayMaxNumberOfRobotsErrorMessage=true;
     errorMessageTicks=0;
-  }
-  
+  }  
   if(ticks>50 && numberOfRobotClones<maxNumberOfRobotClones){
     return true;
   }else{
@@ -125,6 +124,7 @@ int Level_1::gameLoop(){
   }
 
   robot.setSprite();
+  templateScrolling();
   scrolling();
   render();
 
@@ -156,7 +156,7 @@ int Level_1::render(){
   }
   
   for(int a=0;a<3;a++){
-    window.draw(infoButton[a].getSprite());
+   window.draw(infoButton[a].getSprite());
     window.draw(infoButton[a].getText(robotX));
   }
 

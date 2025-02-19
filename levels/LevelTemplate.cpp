@@ -24,8 +24,23 @@ LevelTemplate::LevelTemplate(sf::RenderWindow& win) :
   text.setStyle(sf::Text::Regular);
   text.setFillColor(sf::Color::White);
 
+  errorText.setFont(font);
+  errorText.setCharacterSize(50);
+  errorText.setStyle(sf::Text::Regular);
+  errorText.setFillColor(sf::Color::White);
+  errorText.setString(maxNumberOfRobotsErrorMessageString);
+
   pairKey=make_pair(6969696969, 'g');
   vecOfPairs.push_back(pairKey);
+}
+
+void LevelTemplate::resetEverything(){
+  robot.setPosition(0,200,0,0);
+}
+
+int LevelTemplate::exitToStartingScreen(){
+  resetEverything();
+  return 100;
 }
 
 int LevelTemplate::templateLoop(){
@@ -44,11 +59,17 @@ int LevelTemplate::templateLoop(){
   robot.userInput(ticks);
   
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
-    timeLoop();
+    if(canITimeLoopFunction()){
+      timeLoop();
+    }
   }
 
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
     fullResetTemplate();
+  }
+
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+    return exitToStartingScreen();
   }
   
   for(int a=0;a<blockNumber;a++){
@@ -85,6 +106,19 @@ void LevelTemplate::timeLoop(){
   }
   robot.setVecOfPairsClear();
   ticks=0;
+}
+
+bool LevelTemplate::canITimeLoopFunction(){
+  if(ticks>50 && numberOfRobotClones>=maxNumberOfRobotClones){
+    displayMaxNumberOfRobotClones=true;
+    errorMessageTicks=0;
+  }
+  
+  if(ticks>50 && numberOfRobotClones<maxNumberOfRobotClones){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 void LevelTemplate::fullResetTemplate(){
@@ -130,6 +164,12 @@ void LevelTemplate::templateRender(){
     for(int b=0;b<block[a].getNumOfSprites();b++){
       window.draw(block[a].getSprite2(b));
     }
+  }
+  
+  if(errorMessageTicks<100 && displayMaxNumberOfRobotClones){
+    errorText.setPosition(robotX, robotY);
+    window.draw(errorText);
+    errorMessageTicks++;
   }
 }
 

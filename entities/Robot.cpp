@@ -88,6 +88,10 @@ void Robot::gravity(){
   }
 }
 
+void Robot::setDie(bool orNot){
+  deadOrNot=orNot;
+}
+
 void Robot::userMovement(){
   if(playerHorizontal==RIGHT){
     setVelocityX(7);
@@ -106,6 +110,10 @@ void Robot::userMovement(){
   setY(getY() + getVelocityY());
   setX(getX() + getVelocityX());
   //  sprite.setPosition(getX(), getY());
+}
+
+bool Robot::getDieOrNot(){
+  return deadOrNot;
 }
 
 void Robot::userInput(int ticks){
