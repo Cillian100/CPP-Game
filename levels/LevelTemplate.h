@@ -4,6 +4,7 @@
 #include "../entities/Block.h"
 #include "../entities/Border.h"
 #include "../entities/EndPoint.h"
+#include "../entities/InfoButton.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -42,6 +43,7 @@ class LevelTemplate{
   string maxNumberOfRobotsErrorMessageString="You have exceeded the allowed amount\nof robots for this level!";  
   int currentLevel;
   int numberOfRobotClones=0;
+  int numberOfInfoButtons=0;
   int maxNumberOfRobotClones;
   int errorMessageTicks;
   long int ticks=0;
@@ -62,6 +64,13 @@ class LevelTemplate{
     Block(0,0,0,0,0,0),
     Block(0,0,0,0,0,0)
   };
+  
+  InfoButton infoButton[3]={
+    InfoButton(0,0,0,0,0),
+    InfoButton(0,0,0,0,0),
+    InfoButton(0,0,0,0,0)
+  };
+
   Border border;
   EndPoint endPoint;
   

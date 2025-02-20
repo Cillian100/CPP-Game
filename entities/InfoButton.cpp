@@ -38,6 +38,14 @@ sf::Text InfoButton::getText(int offset){
   return text;
 }
 
+void InfoButton::setStuff(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex){
+  setX(inputX);
+  setY(inputY);
+  setWidth(inputWidth);
+  setHeight(inputHeight);
+  messageIndex=inputMessageIndex;
+}
+
 void InfoButton::collision(Robot &robot){
   if(getX() < robot.getX2() && getX2() > robot.getX() && (getY() < robot.getY2() && getY2() > robot.getY()) ){
     sprite.setTexture(texturePressed);

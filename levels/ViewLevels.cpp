@@ -23,6 +23,9 @@ ViewLevels::ViewLevels(sf::RenderWindow& win)
     text[a].setPosition(100+(a*150), 150);    
     text[a].setString("level " + to_string(a));
   }
+
+  waitASec=true;
+  enterBool=false;
 }
 
 int ViewLevels::gameLoop(){
@@ -31,7 +34,13 @@ int ViewLevels::gameLoop(){
     exitBool=false;
     return 0;
   }
-  return render();
+  render();
+  if(enterBool){
+    enterBool=false;
+    return currentMenuItem+1;
+  }
+
+  gameLoop();
 }
 
 int ViewLevels::render(){
@@ -42,11 +51,5 @@ int ViewLevels::render(){
   }
 
   window.display();
-  if(enterBool==true){
-    enterBool=false;
-    return currentMenuItem+1;
-  }else{
-    return 10;
-  }
 }
 

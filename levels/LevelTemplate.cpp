@@ -159,11 +159,16 @@ void LevelTemplate::templateRender(){
   if(numberOfRobotClones>0){
     window.draw(robotClone[0].getSprite());
   }
+  
   window.draw(endPoint.getSprite());
   for(int a=0;a<blockNumber;a++){
     for(int b=0;b<block[a].getNumOfSprites();b++){
       window.draw(block[a].getSprite2(b));
     }
+  }
+
+  for(int a=0;a<numberOfInfoButtons;a++){
+    window.draw(infoButton[a].getSprite());
   }
   
   if(errorMessageTicks<100 && displayMaxNumberOfRobotClones){
@@ -187,6 +192,10 @@ void LevelTemplate::templateScrolling(){
     robotX=border.getX2()-800;
   }
 
+  if(robotY>border.getY2()){
+    robotY=border.getY2();
+  }
+  
   backgroundSprite.setPosition(robotX, robotY);
   view.reset(sf::FloatRect(robotX, robotY, 800, 600));
 }

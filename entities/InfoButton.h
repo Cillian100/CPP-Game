@@ -11,6 +11,7 @@ class InfoButton : public Square{
   sf::Text getText(int offset);
   void setSprite();
   void collision(Robot &robot);
+  void setStuff(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex);
   InfoButton(int inputX, int inputY, int inputWidth, int inputHeight, int inputMessageIndex);
  private:
   sf::Font font;
