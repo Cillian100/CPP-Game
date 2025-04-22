@@ -36,3 +36,7 @@ void Border::setStuffPodge(int inputX, int inputY, int inputWidth, int inputHeig
 int Border::getX2(){
   return x+width;
 }
+
+int Border::getY2(){
+  return y+height;
+}

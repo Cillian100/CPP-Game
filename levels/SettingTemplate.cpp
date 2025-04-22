@@ -14,6 +14,7 @@ SettingTemplate::SettingTemplate(sf::RenderWindow& win) : window(win){
   backgroundSprite.setColor(sf::Color(255,255,255,255));
   backgroundSprite.setPosition(0,0);
 
+  enterBool=false;
 }
 
 void SettingTemplate::templateRender(){
@@ -31,12 +32,18 @@ void SettingTemplate::templateRender(){
 }
 
 void SettingTemplate::templateUserInput(){
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || 
+      sf::Keyboard::isKeyPressed(sf::Keyboard::D) || 
+      sf::Keyboard::isKeyPressed(sf::Keyboard::S) || 
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
     if(!keyPress){
       currentMenuItem++;
     }
     keyPress=true;
-  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || 
+      sf::Keyboard::isKeyPressed(sf::Keyboard::A) || 
+      sf::Keyboard::isKeyPressed(sf::Keyboard::W) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
     if(!keyPress){
       currentMenuItem--;
     }
@@ -46,9 +53,11 @@ void SettingTemplate::templateUserInput(){
   }
 
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)){
-    if(waitASec==false){
+    if(!waitASec){
       enterBool=true;
+      enterKeyBoolean=!enterKeyBoolean;
     }
+    waitASec=true;
   }else{
     waitASec=false;
     enterBool=false;
@@ -61,5 +70,9 @@ void SettingTemplate::templateUserInput(){
   }
   
   currentMenuItem=currentMenuItem%numberOfMenuItems;
+  if(currentMenuItem<0){
+    currentMenuItem=numberOfMenuItems-1;
+  }
+
   return;
 }

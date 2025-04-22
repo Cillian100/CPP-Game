@@ -6,21 +6,36 @@
 #include "levels/Settings.h"
 #include "levels/Level_1.h"
 #include "levels/Level_2.h"
+#include "levels/Level_3.h"
+#include "enums/GameLevel.h"
 
 using namespace std;
 
 class Game{
 public:
   Game()
-    : window(sf::VideoMode(800, 600), "Platformer!"),
+    : window(sf::VideoMode(800, 600), "Platformer!", sf::Style::Default),
       startingScreen(window),
       viewLevels(window),
       settings(window),
       level_1(window),
-      level_2(window)
+      level_2(window),
+      level_3(window)
   {    
     window.setMouseCursorVisible(false);
     window.setFramerateLimit(61);
+    setFullScreen=false;
+    fullScreen=false;
+  }
+
+  void changeToFullScreen(){
+      if(setFullScreen){
+        window.create(sf::VideoMode(800, 600), "Platformer!", sf::Style::Fullscreen);
+        fullScreen=true;
+      }else{
+        window.create(sf::VideoMode(800, 600), "Platformer!", sf::Style::Default);
+        fullScreen=false;
+      }
   }
 
   void gameLoop() {
@@ -39,22 +54,32 @@ public:
       }
 
       if(gameLevelInteger==STARTING_SCREEN){
-	gameLevelInteger = startingScreen.gameLoop();
+	      gameLevelInteger = startingScreen.gameLoop();
       }else if(gameLevelInteger==LEVEL_1){
-	gameLevelInteger = level_1.gameLoop();
+	      gameLevelInteger = level_1.gameLoop();
       }else if(gameLevelInteger==LEVEL_2){
        	gameLevelInteger = level_2.gameLoop();
-      }else if(gameLevelInteger==10){
-	gameLevelInteger = viewLevels.gameLoop();
-      }else if(gameLevelInteger==11){
-	gameLevelInteger = settings.gameLoop();
+      }else if(gameLevelInteger==LEVEL_3){
+      Level_3 level_3(window);
+	    gameLevelInteger = level_3.gameLoop();
+      }else if(gameLevelInteger==VIEW_LEVELS){
+	      ViewLevels viewLevels(window);
+	      gameLevelInteger = viewLevels.gameLoop();
+      }else if(gameLevelInteger==SETTINGS){
+	      gameLevelInteger = settings.gameLoop();
+      }else if(gameLevelInteger==EXIT){
+        return;
+      }else if(gameLevelInteger==100){
+	      gameLevelInteger = startingScreen.gameLoop();
       }else{
-	gameLevelInteger = startingScreen.gameLoop();
+	      gameLevelInteger = startingScreen.gameLoop();
       }
-      printf("%d \n", gameLevelInteger);
-      
+
+      if(fullScreen!=setFullScreen){
+        changeToFullScreen();
+      }
     } 
-  }
+}
   
 private:  
   sf::RenderWindow window;
@@ -66,13 +91,10 @@ private:
   Settings settings;
   Level_1 level_1;
   Level_2 level_2;
+  Level_3 level_3;
   int gameLevelInteger;
-
-  enum gameLevel{
-    STARTING_SCREEN,
-    LEVEL_1,
-    LEVEL_2
-  };
+  bool setFullScreen;
+  bool fullScreen;
   
 };
 

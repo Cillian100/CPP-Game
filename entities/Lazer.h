@@ -26,6 +26,7 @@ class Lazer : public Square{
   int getLazerY();
   int getLazerY2();
   Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int buttonX, int buttonY);
+  void setStuffLazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int buttonX, int buttonY);
  private:
   int numberOfSprites;
   int directionOfSprites;

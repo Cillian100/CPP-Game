@@ -6,12 +6,12 @@ int StartingScreen::gameLoop(){
 }
 
 void StartingScreen::userInput(){
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
     if(!keyPress){
       currentMenuItem--;
     }
     keyPress=true;
-  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+  }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
     if(!keyPress){
       currentMenuItem++;
     }
@@ -32,7 +32,6 @@ void StartingScreen::userInput(){
 }
 
 int StartingScreen::render(){
-  //view.reset(sf::FloatRect(0,0,800,600));
   window.setView(window.getDefaultView());
   window.clear();
   window.draw(backgroundSprite);
@@ -48,11 +47,13 @@ int StartingScreen::render(){
   window.display();
 
   if(currentMenuItem==0 && enterBool){
-    return 1;
+    return LEVEL_1;
   }else if(currentMenuItem==2 && enterBool){
-    return 10;
+    return VIEW_LEVELS;
   }else if(currentMenuItem==4 && enterBool){
-    return 11;
+    return SETTINGS;
+  }else if(currentMenuItem==5 && enterBool){
+    return EXIT;
   }else{
     return 0;
   }

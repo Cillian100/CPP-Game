@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include "../enums/GameLevel.h"
 using namespace std;
 #pragma once
 
@@ -26,6 +27,7 @@ class SettingTemplate{
   bool keyPress;
   bool waitASec=true;
   bool exitBool=false;
+  bool enterKeyBoolean=false;
 
  private:
 };

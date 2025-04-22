@@ -147,6 +147,10 @@ int LevelTemplate::gameLose(){
   window.display();
   while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
       text.setCharacterSize(90);
+      if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+        robot.setDie(false);
+        fullResetTemplate();
+      }
   }
   return currentLevel;
 }
@@ -170,6 +174,12 @@ void LevelTemplate::templateRender(){
   for(int a=0;a<numberOfInfoButtons;a++){
     window.draw(infoButton[a].getSprite());
   }
+
+  for(int a=0;a<numberOfLazer;a++){
+    for(int b=0;b<lazer[a].getNumberOfSprites();b++){
+      window.draw(lazer[a].getSpriteDos(b));
+    }
+  }
   
   if(errorMessageTicks<100 && displayMaxNumberOfRobotClones){
     errorText.setPosition(robotX, robotY);
@@ -182,20 +192,23 @@ void LevelTemplate::templateScrolling(){
   robotX = robot.getX()-200;
   robotY = robot.getY()-300;
 
-  if(robotY<0){
-    robotY=0;
+  printf("%d %d\n", robotY, border.getY());
+
+  if(robotY<border.getY()){
+    robotY=border.getY();
   }
+
   if(robotX<border.getX()){
     robotX=border.getX();
   }
   if(robotX>border.getX2()-800){
     robotX=border.getX2()-800;
-  }
+  }  
 
   if(robotY>border.getY2()){
     robotY=border.getY2();
   }
-  
+
   backgroundSprite.setPosition(robotX, robotY);
   view.reset(sf::FloatRect(robotX, robotY, 800, 600));
 }

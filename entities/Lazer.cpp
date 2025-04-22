@@ -60,6 +60,17 @@ Lazer::Lazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputN
   }
 }
 
+void Lazer::setStuffLazer(int inputX, int inputY, int inputWidth, int inputHeight, int inputNumberOfSprites, int inputDirectionOfSprites, int inButtonX, int inButtonY){
+  setX(inputX);
+  setY(inputY);
+  setWidth(inputWidth);
+  setHeight(inputHeight);
+  numberOfSprites=inputNumberOfSprites;
+  directionOfSprites=inputDirectionOfSprites;
+  buttonX=inButtonX;
+  buttonY=inButtonY;
+}
+
 sf::Sprite Lazer::getSpriteUno(int apple){
   return spriteUno[apple];
 }

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include "../enums/GameLevel.h"
 using namespace std;
 #pragma once
 

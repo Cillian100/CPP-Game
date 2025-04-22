@@ -48,5 +48,5 @@ int Level_3::gameLoop(){
   
   gameLoop();
 
-  return 3;
+  return LEVEL_3;
 }

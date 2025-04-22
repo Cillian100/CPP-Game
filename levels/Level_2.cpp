@@ -28,7 +28,7 @@ Level_2::Level_2(sf::RenderWindow& win) :
 
 int Level_2::gameLoop(){
   if(templateLoop()!=currentLevel){
-    return 3;
+    return LEVEL_3;
   }
   Robot robotArray[]={robot, robotClone[0]};
   
@@ -47,5 +47,5 @@ int Level_2::gameLoop(){
   window.draw(lazerUno.getButtonSprite());
   window.display();
   
-  return 2;
+  return LEVEL_2;
 }

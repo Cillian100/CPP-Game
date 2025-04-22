@@ -11,7 +11,9 @@ class Settings : public SettingTemplate{
  public:
   int gameLoop();
   int render();
+  void toggleFullScreen();
   Settings(sf::RenderWindow& win);
  private:
   bool fullScreenBool=false;
+  bool toggle;
 };
